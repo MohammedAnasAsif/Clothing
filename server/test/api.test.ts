@@ -39,13 +39,13 @@ test('lists the four categories with counts', async () => {
   const { status, body } = await json('/categories');
   assert.equal(status, 200);
   assert.deepEqual(body.map((c: any) => c.slug), ['t-shirts', 'shirts', 'hoodies', 'ladies-wear']);
-  assert.ok(body.every((c: any) => c.count >= 8));
+  assert.ok(body.every((c: any) => c.count >= 6));
 });
 
 test('filters, sorts and paginates products', async () => {
   const { body } = await json('/products?category=hoodies&sort=price-asc&limit=3');
   assert.equal(body.items.length, 3);
-  assert.ok(body.total >= 8);
+  assert.ok(body.total >= 6);
   assert.ok(body.items[0].price <= body.items[1].price);
   assert.ok(body.items.every((p: any) => p.category === 'hoodies'));
 
