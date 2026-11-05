@@ -53,7 +53,7 @@ test('filters, sorts and paginates products', async () => {
   assert.ok(sale.body.items.every((p: any) => p.compareAt));
 
   const search = await json('/products?q=linen');
-  assert.ok(search.body.items.some((p: any) => p.slug === 'linen-camp-collar-shirt'));
+  assert.ok(search.body.items.some((p: any) => p.slug === 'linen-button-up-shirt'));
 
   const bad = await json('/products?sort=drop-table');
   assert.equal(bad.status, 400);
@@ -69,12 +69,12 @@ test('returns a product with reviews and related items', async () => {
 });
 
 test('accepts a valid review and rejects an invalid one', async () => {
-  const ok = await json('/products/satin-slip-dress/reviews', {
+  const ok = await json('/products/belted-satin-playsuit/reviews', {
     method: 'POST',
     body: JSON.stringify({ name: 'Asha', rating: 5, title: 'Beautiful', body: 'Drapes perfectly and feels lovely.' }),
   });
   assert.equal(ok.status, 201);
-  const bad = await json('/products/satin-slip-dress/reviews', {
+  const bad = await json('/products/belted-satin-playsuit/reviews', {
     method: 'POST',
     body: JSON.stringify({ name: 'A', rating: 9, title: '', body: 'x' }),
   });
@@ -107,7 +107,7 @@ test('places an order using server-side prices and reduces stock', async () => {
 test('rejects orders for unknown sizes or more than the stock', async () => {
   const size = await json('/orders', {
     method: 'POST',
-    body: JSON.stringify({ customer, payment: 'upi', items: [{ slug: 'satin-slip-dress', size: 'XXL', color: 'Ink Black', qty: 1 }] }),
+    body: JSON.stringify({ customer, payment: 'upi', items: [{ slug: 'belted-satin-playsuit', size: 'XXL', color: 'Olive', qty: 1 }] }),
   });
   assert.equal(size.status, 400);
 
@@ -116,12 +116,12 @@ test('rejects orders for unknown sizes or more than the stock', async () => {
     body: JSON.stringify({
       customer,
       payment: 'upi',
-      items: Array.from({ length: 2 }, () => ({ slug: 'knit-hooded-sweater', size: 'M', color: 'Olive', qty: 10 })),
+      items: Array.from({ length: 2 }, () => ({ slug: 'chunky-rib-knit-sweater', size: 'M', color: 'Olive', qty: 10 })),
     }),
   });
   assert.equal(tooMany.status, 409);
   // The failed order must not have taken any stock.
-  const p = (await json('/products/knit-hooded-sweater')).body.product;
+  const p = (await json('/products/chunky-rib-knit-sweater')).body.product;
   assert.equal(p.stock, 12);
 });
 

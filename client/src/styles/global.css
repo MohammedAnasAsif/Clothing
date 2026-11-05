@@ -533,3 +533,7 @@ ul { list-style: none; margin: 0; padding: 0; }
   font-variation-settings: 'opsz' 28;
 }
 .hero__title { text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25); }
+@media (max-width: 480px) {
+  .buy__row .btn { padding: 0 14px; letter-spacing: 0.1em; white-space: nowrap; }
+  .buy__row .qty--lg button { width: 36px; }
+}
