@@ -524,3 +524,12 @@ ul { list-style: none; margin: 0; padding: 0; }
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
   .marquee__track { animation: none; }
 }
+
+/* Large Bodoni settings: Bodoni Moda's optical-size axis thins hairlines to nothing at display sizes,
+   which breaks up over photography. Pin a mid optical size for big type. */
+.hero__title, .statement p, .slice-banner h2, .tread h2, .split__label h3, .story__body h3,
+.cat-hero h1, .page-head h1, .about-hero__text h1, .confirm h1, .footer__mark, .buy h1 {
+  font-optical-sizing: none;
+  font-variation-settings: 'opsz' 28;
+}
+.hero__title { text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25); }

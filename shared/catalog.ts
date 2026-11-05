@@ -147,7 +147,7 @@ const seeds: Seed[] = [
     gender: 'men',
     price: 1149,
     compareAt: null,
-    images: ['1564584217132-2271feaeb3c5', '1571945153237-4929e783af4a'],
+    images: ['1564584217132-2271feaeb3c5', '1581655353564-df123a1eb820'],
     colors: [C.grey, C.sage],
     sizes: TOP,
     stock: 35,

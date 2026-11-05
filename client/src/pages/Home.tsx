@@ -169,7 +169,7 @@ function Story({ index, slug, title, copy, image, label }: { index: number; slug
 }
 
 const STORIES = [
-  { slug: 't-shirts', label: 'T-Shirts', title: ['The tee,', 'taken seriously'], copy: 'Heavyweight jersey that holds a collar, cuts that sit right tucked or loose, and colour that fades slowly and evenly.', image: '1571945153237-4929e783af4a' },
+  { slug: 't-shirts', label: 'T-Shirts', title: ['The tee,', 'taken seriously'], copy: 'Heavyweight jersey that holds a collar, cuts that sit right tucked or loose, and colour that fades slowly and evenly.', image: '1503341504253-dff4815485f1' },
   { slug: 'shirts', label: 'Shirts', title: ['Pressed,', 'never rigid'], copy: 'Oxford, poplin, linen and denim with soft structure. Shirts that look sharp at nine and still feel easy at nine.', image: '1588359348347-9bc6cbbb689e' },
   { slug: 'hoodies', label: 'Hoodies', title: ['Made for the', 'in-between'], copy: 'Brushed fleece and loopback cotton in real weights, for evenings that cool and mornings that start slow.', image: '1556821840-3a63f95609a7' },
   { slug: 'ladies-wear', label: 'Ladies Wear', title: ['Soft, but', 'structured'], copy: 'Fluid shapes cut with intent. Dresses, co-ords and tailoring that travel with you and still fall right at the end of the day.', image: '1566174053879-31528523f8ae' },
