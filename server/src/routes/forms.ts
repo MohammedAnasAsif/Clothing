@@ -11,7 +11,7 @@ forms.post('/newsletter', rateLimit(5, 60_000), (req, res) => {
   const info = db.prepare('INSERT OR IGNORE INTO subscribers (email) VALUES (?)').run(parsed.data.email);
   res.status(info.changes ? 201 : 200).json({
     ok: true,
-    message: info.changes ? 'You are on the list. Your 10% code is WELCOME10.' : 'You are already subscribed.',
+    message: info.changes ? 'You are on the list. We will email you about new colours and offers.' : 'You are already subscribed.',
   });
 });
 

@@ -7,7 +7,7 @@ import type { Product, Review } from '../../shared/types';
 const DB_PATH =
   process.env.DB_PATH === ':memory:'
     ? ':memory:'
-    : resolve(process.env.DB_PATH ?? resolve(import.meta.dirname, '../data/st-clothings.db'));
+    : resolve(process.env.DB_PATH ?? resolve(import.meta.dirname, '../data/style-heaven.db'));
 if (DB_PATH !== ':memory:') mkdirSync(dirname(DB_PATH), { recursive: true });
 
 export const db = new DatabaseSync(DB_PATH);

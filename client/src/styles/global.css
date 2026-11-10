@@ -1,20 +1,22 @@
-/* ST CLOTHINGS — ink on warm white, Bodoni Moda against Instrument Sans */
+/* Style Heaven — ink on white with the logo's powder blue; Bodoni Moda + a signature script for the mark */
 
 :root {
   --ink: #111111;
   --ink-2: #2a2a2a;
   --paper: #ffffff;
-  --bone: #f6f3ee;
-  --stone: #ece7df;
-  --line: #e3ded6;
-  --muted: #6e6962;
-  --soft: #9a958d;
+  --bone: #eef4fa;
+  --stone: #e6edf4;
+  --line: #dfe5ec;
+  --muted: #646b74;
+  --soft: #959ca5;
+  --powder: #dce9f6;
   --star: #e0a53a;
   --sale: #9b2c1f;
   --ok: #2f6b45;
 
   --serif: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
   --display: 'Cormorant', 'Bodoni Moda', Georgia, serif;
+  --script: 'Mrs Saint Delafield', 'Snell Roundhand', 'Brush Script MT', cursive;
   --sans: 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --gutter: clamp(16px, 3vw, 40px);
@@ -93,11 +95,13 @@ ul { list-style: none; margin: 0; padding: 0; }
 .header__nav a.active::after, .header__nav > a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 20px; height: 1px; background: currentColor; transform: scaleX(0); transition: transform 0.35s var(--ease); }
 .header__nav > a:hover::after, .header__nav a.active::after { transform: scaleX(1); }
 .logo { font-family: var(--serif); font-size: clamp(20px, 2.1vw, 26px); letter-spacing: 0.16em; font-weight: 500; white-space: nowrap; text-align: center; line-height: 1; }
-.logo small { display: block; font-family: var(--sans); font-size: 8.5px; letter-spacing: 0.5em; margin-top: 5px; color: var(--muted); font-weight: 500; }
+.logo { display: inline-flex; flex-direction: column; align-items: center; justify-self: center; letter-spacing: 0; }
+.logo__script { font-family: var(--script); font-size: clamp(30px, 3vw, 40px); line-height: 0.7; font-weight: 400; transform: translateX(-12%); }
+.logo__caps { font-family: var(--serif); font-size: clamp(9px, 0.8vw, 11px); letter-spacing: 0.62em; margin-right: -0.62em; text-transform: uppercase; font-weight: 500; margin-top: 2px; }
 .header__actions { display: flex; justify-content: flex-end; align-items: center; gap: 2px; }
 .header__burger { display: none; }
 
-.mega { position: absolute; top: 100%; left: -24px; width: min(760px, 80vw); background: var(--paper); border: 1px solid var(--line); padding: 22px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; box-shadow: 0 30px 60px -30px rgba(0,0,0,0.25); }
+.mega { position: absolute; top: 100%; left: -24px; width: min(1040px, 86vw); background: var(--paper); border: 1px solid var(--line); padding: 22px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; box-shadow: 0 30px 60px -30px rgba(0,0,0,0.25); }
 .mega a { display: block; text-transform: none; letter-spacing: 0; }
 .mega figure { margin: 0 0 10px; aspect-ratio: 3/4; overflow: hidden; background: var(--stone); }
 .mega figure img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s var(--ease); }
@@ -109,8 +113,8 @@ ul { list-style: none; margin: 0; padding: 0; }
   .header__nav { display: none; }
   .header__burger { display: inline-grid; }
   .header__inner { grid-template-columns: auto 1fr auto; }
-  .logo { text-align: left; }
-  .logo small { display: none; }
+  .logo { justify-self: start; align-items: flex-start; }
+  .logo__script { transform: none; font-size: 30px; }
   .header__actions .hide-sm { display: none; }
 }
 
@@ -331,7 +335,7 @@ ul { list-style: none; margin: 0; padding: 0; }
 .footer__bar { margin-top: 56px; padding-block: 22px; border-top: 1px solid #262523; display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #8c877f; }
 .pay { display: flex; gap: 8px; flex-wrap: wrap; }
 .pay span { border: 1px solid #34322f; padding: 4px 9px; font-size: 11px; letter-spacing: 0.06em; color: #d9d5ce; font-weight: 600; text-transform: none; }
-.footer__mark { font-family: var(--serif); font-weight: 500; font-size: 11.6vw; line-height: 0.78; letter-spacing: 0.01em; color: #232220; text-align: center; white-space: nowrap; margin-top: 12px; transform: translateY(14%); user-select: none; }
+.footer__mark { font-family: var(--serif); font-weight: 500; font-size: 13vw; line-height: 0.78; letter-spacing: 0.01em; color: #232220; text-align: center; white-space: nowrap; margin-top: 12px; transform: translateY(14%); user-select: none; }
 @media (max-width: 900px) { .footer__grid { grid-template-columns: 1fr 1fr; } .footer__news { grid-column: 1 / -1; } }
 
 /* ─── Page header / breadcrumbs ─────────────────────────── */
@@ -537,3 +541,18 @@ ul { list-style: none; margin: 0; padding: 0; }
   .buy__row .btn { padding: 0 14px; letter-spacing: 0.1em; white-space: nowrap; }
   .buy__row .qty--lg button { width: 36px; }
 }
+
+/* ─── Brand hero title: script "Style" over spaced capitals ─── */
+.hero__title--brand { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+.hero__script { font-family: var(--script); font-weight: 400; font-size: clamp(72px, 13vw, 210px); line-height: 0.62; transform: translateX(-14%); text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25); }
+.hero__title--brand .rise > span { font-size: clamp(30px, 6vw, 92px); letter-spacing: 0.42em; margin-right: -0.42em; }
+
+/* ─── Why satin ─── */
+.benefits__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.benefit { background: var(--bone); padding: 28px 24px 30px; display: grid; gap: 10px; height: 100%; }
+.benefit h3 { font-family: var(--serif); font-weight: 400; font-size: 24px; line-height: 1.1; }
+.benefit p { color: var(--muted); font-size: 14.5px; }
+.section-head .serif-h em { font-style: italic; }
+@media (max-width: 960px) { .benefits__grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .benefits__grid { grid-template-columns: 1fr; } }
+.perks div span { min-width: 0; }

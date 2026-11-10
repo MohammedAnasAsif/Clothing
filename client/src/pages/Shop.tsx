@@ -12,12 +12,12 @@ import { Drawer } from '../components/Overlays';
 import NotFound from './NotFound';
 
 const PRICE_BANDS = [
-  { label: 'Under ₹1,500', min: undefined, max: 1499 },
-  { label: '₹1,500 – ₹2,500', min: 1500, max: 2500 },
-  { label: '₹2,500 – ₹4,000', min: 2501, max: 4000 },
-  { label: 'Over ₹4,000', min: 4001, max: undefined },
+  { label: 'Under ₹300', min: undefined, max: 299 },
+  { label: '₹300 – ₹600', min: 300, max: 600 },
+  { label: '₹601 – ₹1,000', min: 601, max: 1000 },
+  { label: 'Over ₹1,000', min: 1001, max: undefined },
 ];
-const ALL_SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+const SIZE_ORDER = ['Mini', 'Regular', 'Large', 'XL', 'Standard', 'Queen', 'King', 'S', 'M', 'L', 'One size'];
 const SORTS: Array<[NonNullable<ProductQuery['sort']>, string]> = [
   ['featured', 'Featured'],
   ['newest', 'Newest'],
@@ -31,7 +31,7 @@ export default function Shop() {
   const { slug } = useParams();
   const [params, setParams] = useSearchParams();
   const [page, setPage] = useState(1);
-  const [view, setView] = useState<'grid' | 'list'>(() => (localStorage.getItem('st:view') as 'grid' | 'list') || 'grid');
+  const [view, setView] = useState<'grid' | 'list'>(() => (localStorage.getItem('sh:view') as 'grid' | 'list') || 'grid');
   const [filtersOpen, setFiltersOpen] = useState(false);
   const { data: categories } = useAsync(() => api.categories(), []);
 
@@ -50,7 +50,7 @@ export default function Shop() {
   const key = JSON.stringify(query);
   useEffect(() => setPage(1), [key]);
   useEffect(() => {
-    try { localStorage.setItem('st:view', view); } catch { /* ignore */ }
+    try { localStorage.setItem('sh:view', view); } catch { /* ignore */ }
   }, [view]);
 
   const { data, loading, error, reload } = useAsync(() => api.products({ ...query, page, limit: LIMIT }), [key, page]);
@@ -61,6 +61,10 @@ export default function Shop() {
     () => [...new Set(allProducts.filter((p) => !category || p.category === category).map((p) => p.type))].sort(),
     [category],
   );
+  const sizes = useMemo(() => {
+    const offered = new Set(allProducts.filter((p) => !category || p.category === category).flatMap((p) => p.sizes));
+    return SIZE_ORDER.filter((s) => offered.has(s) && s !== 'One size');
+  }, [category]);
 
   const set = (k: string, v: string | null) => {
     const next = new URLSearchParams(params);
@@ -81,7 +85,6 @@ export default function Shop() {
   const active: Array<[string, string, () => void]> = [];
   if (query.q) active.push(['q', `“${query.q}”`, () => set('q', null)]);
   if (!slug && category) active.push(['category', cat?.name ?? category, () => set('category', null)]);
-  if (query.gender) active.push(['gender', query.gender === 'men' ? 'Men' : 'Women', () => set('gender', null)]);
   if (query.type) active.push(['type', query.type, () => set('type', null)]);
   if (query.size) active.push(['size', `Size ${query.size}`, () => set('size', null)]);
   if (query.sale) active.push(['sale', 'On sale', () => set('sale', null)]);
@@ -107,26 +110,22 @@ export default function Shop() {
         })}
       </div>
       <div>
-        <h3>Department</h3>
-        {([['', 'Everyone'], ['women', 'Women'], ['men', 'Men']] as const).map(([v, l]) => (
-          <button key={l} className={`opt${(query.gender ?? '') === v ? ' is-active' : ''}`} onClick={() => set('gender', v || null)}>{l}</button>
-        ))}
-      </div>
-      <div>
         <h3>Style</h3>
         <button className={`opt${!query.type ? ' is-active' : ''}`} onClick={() => set('type', null)}>All styles</button>
         {types.map((t) => (
           <button key={t} className={`opt${query.type === t ? ' is-active' : ''}`} onClick={() => set('type', t)}>{t}</button>
         ))}
       </div>
+      {sizes.length > 1 && (
       <div>
         <h3>Size</h3>
         <div className="sizes">
-          {ALL_SIZES.map((s) => (
+          {sizes.map((s) => (
             <button key={s} className={`size${query.size === s ? ' is-active' : ''}`} aria-pressed={query.size === s} onClick={() => set('size', query.size === s ? null : s)}>{s}</button>
           ))}
         </div>
       </div>
+      )}
       <div>
         <h3>Price</h3>
         {PRICE_BANDS.map((b) => {
@@ -167,8 +166,8 @@ export default function Shop() {
       ) : (
         <div className="container page-head">
           <nav className="crumbs" aria-label="Breadcrumb"><Link to="/">Home</Link> / <span>Shop</span></nav>
-          <Rise as="h1" lines={[query.sale ? 'Sale' : query.gender === 'women' ? 'Women' : query.gender === 'men' ? 'Men' : query.q ? 'Search' : 'Shop all']} immediate />
-          <p>{query.q ? `Results for “${query.q}”.` : 'Tees, shirts, hoodies and ladies wear — made to be worn, washed and worn again.'}</p>
+          <Rise as="h1" lines={[query.sale ? 'Sale' : query.q ? 'Search' : 'Shop all']} immediate />
+          <p>{query.q ? `Results for “${query.q}”.` : 'Satin scrunchies, eye masks, pillow covers, bows, combos and pajamas.'}</p>
         </div>
       )}
 

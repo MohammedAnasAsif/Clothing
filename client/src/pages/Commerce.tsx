@@ -38,7 +38,7 @@ export function CartPage() {
         <div className="container empty" style={{ paddingBottom: 120 }}>
           <ShoppingBag size={40} strokeWidth={1} />
           <h2>Your cart is empty</h2>
-          <p>Nothing here yet. The heavyweight crew tee is a good place to start.</p>
+          <p>Nothing here yet. A satin scrunchie or a colour combo is a good place to start.</p>
           <Link to="/shop" className="btn">Continue shopping</Link>
         </div>
       </>
@@ -306,7 +306,7 @@ export function TrackPage({ initialNumber = '' }: { initialNumber?: string }) {
         onSubmit={(e) => { e.preventDefault(); setLookup({ number: number.trim(), email: email.trim() }); }}
       >
         <p className="muted">Enter your order number and the email you used at checkout.</p>
-        <label className="field"><span>Order number</span><input required value={number} onChange={(e) => setNumber(e.target.value)} placeholder="ST-261105-1234" /></label>
+        <label className="field"><span>Order number</span><input required value={number} onChange={(e) => setNumber(e.target.value)} placeholder="SH-261110-1234" /></label>
         <label className="field"><span>Email</span><input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} /></label>
         {error && <p className="notice notice--error" role="alert">{error.message}</p>}
         <button className="btn" style={{ justifySelf: 'start' }} disabled={loading && !!lookup}>Find my order</button>

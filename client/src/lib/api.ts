@@ -67,7 +67,7 @@ const LS = {
 };
 
 const memory = { reviews: [] as Review[], orders: [] as Order[] };
-const localReviews = () => [...seedReviews, ...LS.get<Review[]>('st:reviews', memory.reviews)];
+const localReviews = () => [...seedReviews, ...LS.get<Review[]>('sh:reviews', memory.reviews)];
 const withRatings = (p: Product): Product => {
   const rs = localReviews().filter((r) => r.productSlug === p.slug);
   if (!rs.length) return p;
@@ -111,8 +111,8 @@ export const api = {
   addReview(slug: string, r: Pick<Review, 'name' | 'rating' | 'title' | 'body'>): Promise<Review> {
     if (OFFLINE) {
       const review: Review = { ...r, id: Date.now(), productSlug: slug, createdAt: new Date().toISOString() };
-      memory.reviews = [...LS.get<Review[]>('st:reviews', memory.reviews), review];
-      LS.set('st:reviews', memory.reviews);
+      memory.reviews = [...LS.get<Review[]>('sh:reviews', memory.reviews), review];
+      LS.set('sh:reviews', memory.reviews);
       return delay(review);
     }
     return request(`/products/${encodeURIComponent(slug)}/reviews`, { method: 'POST', body: JSON.stringify(r) });
@@ -128,7 +128,7 @@ export const api = {
       const shipping = subtotal >= FREE_SHIPPING_FROM ? 0 : SHIPPING_FEE;
       const d = new Date();
       const order: Order = {
-        number: `ST-${String(d.getFullYear()).slice(2)}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}-${1000 + Math.floor(Math.random() * 9000)}`,
+        number: `SH-${String(d.getFullYear()).slice(2)}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}-${1000 + Math.floor(Math.random() * 9000)}`,
         customer,
         items: lines,
         subtotal,
@@ -138,8 +138,8 @@ export const api = {
         status: 'placed',
         createdAt: d.toISOString(),
       };
-      memory.orders = [...LS.get<Order[]>('st:orders', memory.orders), order];
-      LS.set('st:orders', memory.orders);
+      memory.orders = [...LS.get<Order[]>('sh:orders', memory.orders), order];
+      LS.set('sh:orders', memory.orders);
       return delay(order);
     }
     return request('/orders', { method: 'POST', body: JSON.stringify({ customer, payment, items }) });
@@ -147,7 +147,7 @@ export const api = {
 
   order(number: string, email: string): Promise<Order> {
     if (OFFLINE) {
-      const o = LS.get<Order[]>('st:orders', memory.orders).find(
+      const o = LS.get<Order[]>('sh:orders', memory.orders).find(
         (x) => x.number === number && x.customer.email.toLowerCase() === email.toLowerCase(),
       );
       return o ? delay(o) : Promise.reject(new ApiError('We could not find an order with those details', 404));
@@ -156,7 +156,7 @@ export const api = {
   },
 
   subscribe(email: string): Promise<{ message: string }> {
-    if (OFFLINE) return delay({ message: 'You are on the list. Your 10% code is WELCOME10.' });
+    if (OFFLINE) return delay({ message: 'You are on the list. We will email you about new colours and offers.' });
     return request('/newsletter', { method: 'POST', body: JSON.stringify({ email }) });
   },
 

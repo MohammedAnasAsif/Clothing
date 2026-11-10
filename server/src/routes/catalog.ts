@@ -18,7 +18,7 @@ const listQuery = z.object({
   category: z.string().max(40).optional(),
   gender: z.enum(['men', 'women', 'unisex']).optional(),
   type: z.string().max(40).optional(),
-  size: z.string().max(5).optional(),
+  size: z.string().max(20).optional(),
   q: z.string().trim().max(60).optional(),
   sale: z.enum(['1', 'true']).optional(),
   min: z.coerce.number().int().nonnegative().optional(),

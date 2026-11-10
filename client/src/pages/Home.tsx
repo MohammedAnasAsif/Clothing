@@ -12,27 +12,43 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 function Hero() {
   return (
-    <section className="hero" aria-label="New season">
+    <section className="hero" aria-label="Style Heaven">
       <div className="hero__media">
         <img
           src={img(IMAGES.hero, 1800)}
           srcSet={srcSet(IMAGES.hero, [800, 1200, 1800, 2400])}
           sizes="100vw"
-          alt="A rail of neutral-toned garments in the ST CLOTHINGS studio"
+          alt="A woman asleep on satin bedding wearing a satin eye mask"
           fetchPriority="high"
         />
       </div>
       <div className="hero__content">
         <motion.p className="eyebrow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }}>
-          Just in for the season
+          Satin for hair &amp; sleep
         </motion.p>
-        <Rise as="h1" className="hero__title" lines={['ST CLOTHINGS']} immediate delay={0.15} />
+        <h1 className="hero__title hero__title--brand">
+          <span className="sr-only">Style Heaven</span>
+          <motion.span
+            className="hero__script"
+            aria-hidden
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease, delay: 0.1 }}
+          >
+            Style
+          </motion.span>
+          <span className="rise" aria-hidden>
+            <motion.span initial={{ y: '105%' }} animate={{ y: '0%' }} transition={{ duration: 1.05, ease, delay: 0.3 }}>
+              HEAVEN
+            </motion.span>
+          </span>
+        </h1>
         <motion.p className="hero__copy" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 1, ease }}>
-          Everyday clothing made properly. Honest fabric, considered proportions, and a finish that keeps its shape
-          wash after wash.
+          Satin scrunchies, eye masks, pillow covers, bows and pajamas. Softer on your hair, softer on your skin, and
+          made in colours you will want in every size.
         </motion.p>
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 1, ease }}>
-          <Link to="/shop" className="btn btn--light">Shop the edit</Link>
+          <Link to="/shop" className="btn btn--light">Shop the collection</Link>
         </motion.div>
       </div>
     </section>
@@ -41,11 +57,11 @@ function Hero() {
 
 function Split() {
   const items = [
-    { to: '/shop?gender=women', title: 'WOMEN', copy: 'Soft lines, sure shapes, and pieces drawn for the way you actually dress.', image: IMAGES.women },
-    { to: '/shop?gender=men', title: 'MEN', copy: 'Clean cuts, easy confidence, and hard-wearing basics built for every day.', image: IMAGES.men },
+    { to: '/category/scrunchies', title: 'HAIR', copy: 'Satin scrunchies and bows, from everyday ponytails to party braids.', image: IMAGES.hair },
+    { to: '/category/pillow-covers', title: 'SLEEP', copy: 'Eye masks, pillow covers and pajamas for softer nights and smoother mornings.', image: IMAGES.sleep },
   ];
   return (
-    <section className="split" aria-label="Shop by department">
+    <section className="split" aria-label="Shop hair or sleep">
       {items.map((it, i) => (
         <Link key={it.title} to={it.to} className="split__item">
           <motion.img
@@ -79,18 +95,18 @@ function Statement() {
   const ref = useRef<HTMLParagraphElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end 0.5'] });
   const tokens: Array<string | { pill: string }> = [
-    'Elevate', 'your', 'style', { pill: '1554568218-0f1715e72254' }, 'with', 'pieces', 'made', 'to', 'be', 'worn', '—',
-    { pill: '1556821840-3a63f95609a7' }, 'season', 'after', 'season,', 'year', 'after', { pill: '1618932260643-eee4a2f652a6' }, 'year.',
+    'Treat', 'your', 'hair', { pill: '1606772016409-d4a55e32be6e' }, 'and', 'skin', 'to', 'satin', '—',
+    { pill: '1687435703153-88f6bc0cdcff' }, 'softer', 'nights,', 'smoother', { pill: '1559051668-9024c9b5e84b' }, 'mornings.',
   ];
   return (
-    <section className="statement container" aria-label="Our approach">
+    <section className="statement container" aria-label="Why satin">
       <p ref={ref}>
         {tokens.map((t, i) => {
           const range: [number, number] = [i / tokens.length, Math.min(1, (i + 2) / tokens.length)];
           if (typeof t === 'string')
             return (
               <Word key={i} progress={scrollYProgress} range={range}>
-                {t === 'style' || t === 'year.' ? <em>{t}</em> : t}
+                {t === 'satin' || t === 'mornings.' ? <em>{t}</em> : t}
               </Word>
             );
           return (
@@ -107,9 +123,9 @@ function Statement() {
 /** Editorial band that assembles from vertical slices when it scrolls into view. */
 function SliceBanner() {
   const n = 6;
-  const url = img(IMAGES.store, 2000);
+  const url = img(IMAGES.combo, 2000);
   return (
-    <section className="slice-banner" aria-label="The edit">
+    <section className="slice-banner" aria-label="Combos">
       <div className="slices" style={{ ['--n' as string]: n }} aria-hidden>
         {Array.from({ length: n }, (_, i) => (
           <div key={i}>
@@ -126,10 +142,10 @@ function SliceBanner() {
       <div className="slice-banner__content">
         <div className="container">
           <div className="inner">
-            <FadeUp><span className="eyebrow">The edit</span></FadeUp>
-            <Rise lines={['Looks Worth', 'Keeping']} delay={0.3} />
-            <FadeUp delay={0.5}><p>Dressing that feels like yours. Considered design, honest cloth and shapes made to last longer than a trend.</p></FadeUp>
-            <FadeUp delay={0.6}><Link to="/shop?sort=rating" className="link-u">See the edit</Link></FadeUp>
+            <FadeUp><span className="eyebrow">The combo edit</span></FadeUp>
+            <Rise lines={['One Colour,', 'The Whole Set']} delay={0.3} />
+            <FadeUp delay={0.5}><p>A satin pillow cover, eye mask and scrunchie in Lemon, Lilac, Onion Pink, Pistachio or Classic Black. Ready to gift.</p></FadeUp>
+            <FadeUp delay={0.6}><Link to="/category/gift-sets" className="link-u">Shop combos</Link></FadeUp>
           </div>
         </div>
       </div>
@@ -141,7 +157,7 @@ function Story({ index, slug, title, copy, image, label }: { index: number; slug
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
   const y = useTransform(scrollYProgress, [0, 1], ['-5%', '5%']);
-  const { data } = useAsync(() => api.products({ category: slug, limit: 3, sort: 'rating' }), [slug]);
+  const { data } = useAsync(() => api.products({ category: slug, limit: 3 }), [slug]);
   return (
     <article className="story">
       <div className="story__media" ref={ref}>
@@ -169,20 +185,48 @@ function Story({ index, slug, title, copy, image, label }: { index: number; slug
 }
 
 const STORIES = [
-  { slug: 't-shirts', label: 'T-Shirts', title: ['The tee,', 'taken seriously'], copy: 'Heavyweight jersey that holds a collar, cuts that sit right tucked or loose, and colour that fades slowly and evenly.', image: '1503341504253-dff4815485f1' },
-  { slug: 'shirts', label: 'Shirts', title: ['Pressed,', 'never rigid'], copy: 'Oxford, poplin, linen and denim with soft structure. Shirts that look sharp at nine and still feel easy at nine.', image: '1588359348347-9bc6cbbb689e' },
-  { slug: 'hoodies', label: 'Hoodies', title: ['Made for the', 'in-between'], copy: 'Brushed fleece and loopback cotton in real weights, for evenings that cool and mornings that start slow.', image: '1556821840-3a63f95609a7' },
-  { slug: 'ladies-wear', label: 'Ladies Wear', title: ['Soft, but', 'structured'], copy: 'Fluid shapes cut with intent. Dresses, co-ords and tailoring that travel with you and still fall right at the end of the day.', image: '1566174053879-31528523f8ae' },
+  { slug: 'scrunchies', label: 'Scrunchies', title: ['Hold,', 'without the dent'], copy: 'Smooth satin that slides out without tugging. Mini, regular and XL, in every colour of the range.', image: '1777795530508-005312461d00' },
+  { slug: 'eye-masks', label: 'Eye Masks', title: ['Lights out,', 'softly'], copy: 'A satin mask that blocks the light without pressing on your eyes, with a band that stays put all night.', image: '1666934209593-25b6aa02ab4e' },
+  { slug: 'pillow-covers', label: 'Pillow Covers', title: ['Satin where', 'you sleep'], copy: 'Hidden envelope closure, three sizes, and a surface your hair glides over instead of rubbing against.', image: '1698746043955-42b03ddedfcb' },
+  { slug: 'pajamas', label: 'Pajamas', title: ['Sleepwear that', 'feels like satin'], copy: 'Soft piping, an easy fit and fabric that stays cool against your skin. In solids and prints.', image: '1793930300711-883df7f0e835' },
 ];
+
+const BENEFITS = [
+  ['Gentle on hair', 'Satin glides instead of gripping, so there is less tugging when a scrunchie comes out.'],
+  ['No sharp dents', 'A satin scrunchie holds your hair without the crease a tight elastic leaves.'],
+  ['Less frizz overnight', 'Hair slides over a satin pillow cover instead of rubbing against cotton.'],
+  ['Kind to skin', 'A smooth, cool surface against your face from lights out to alarm.'],
+];
+
+function Benefits() {
+  return (
+    <section className="section container benefits" aria-labelledby="benefits-title">
+      <div className="section-head">
+        <h2 id="benefits-title" className="serif-h">Why <em>satin</em></h2>
+        <Link to="/shop" className="link-u">Shop all satin</Link>
+      </div>
+      <div className="benefits__grid">
+        {BENEFITS.map(([h, p], i) => (
+          <FadeUp key={h} delay={i * 0.08}>
+            <div className="benefit">
+              <h3>{h}</h3>
+              <p>{p}</p>
+            </div>
+          </FadeUp>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 function Tread() {
   return (
-    <section className="tread" aria-label="Our promise">
-      <img src={img(IMAGES.heroAlt, 2000)} srcSet={srcSet(IMAGES.heroAlt, [900, 1400, 2000])} sizes="100vw" alt="" loading="lazy" />
+    <section className="tread" aria-label="Wholesale">
+      <img src={img(IMAGES.satin, 2000)} srcSet={srcSet(IMAGES.satin, [900, 1400, 2000])} sizes="100vw" alt="" loading="lazy" />
       <div className="container">
-        <Rise lines={['Clothes', 'built to', 'stay']} />
-        <FadeUp delay={0.3}><p>Made with care for the long run. Simple shapes, natural cloth, and pieces you will still reach for in five years.</p></FadeUp>
-        <FadeUp delay={0.4}><Link to="/shop" className="btn btn--light">Shop now</Link></FadeUp>
+        <Rise lines={['Softer', 'nights start', 'here']} />
+        <FadeUp delay={0.3}><p>Order online, or send us a DM on Instagram. Bulk and wholesale orders welcome for boutiques, salons and gifting.</p></FadeUp>
+        <FadeUp delay={0.4}><Link to="/contact" className="btn btn--light">Wholesale enquiries</Link></FadeUp>
       </div>
     </section>
   );
@@ -192,15 +236,15 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Marquee text="Find your season edit" plain />
+      <Marquee text="Sleep pretty · Wake up smooth" plain />
       <ProductRail
-        id="wardrobe"
-        title="Rethink Your Wardrobe"
+        id="satin"
+        title="The Satin Edit"
         tabs={[
-          { label: 'T-Shirts', query: { category: 't-shirts' } },
-          { label: 'Shirts', query: { category: 'shirts' } },
-          { label: 'Hoodies', query: { category: 'hoodies' } },
-          { label: 'Ladies Wear', query: { category: 'ladies-wear' } },
+          { label: 'Scrunchies', query: { category: 'scrunchies' } },
+          { label: 'Eye Masks', query: { category: 'eye-masks' } },
+          { label: 'Pillow Covers', query: { category: 'pillow-covers' } },
+          { label: 'Bows', query: { category: 'bows' } },
         ]}
       />
       <Split />
@@ -210,10 +254,10 @@ export default function Home() {
         id="selected"
         title="Selected Pieces"
         tabs={[
+          { label: 'Combos', query: { category: 'gift-sets' } },
           { label: 'New In', query: { sort: 'newest' } },
-          { label: 'Bestsellers', query: { sort: 'rating' } },
           { label: 'On Sale', query: { sale: true } },
-          { label: 'For Her', query: { gender: 'women', sort: 'rating' } },
+          { label: 'Pajamas', query: { category: 'pajamas' } },
         ]}
       />
       <section className="section container" aria-label="Collections">
@@ -221,8 +265,9 @@ export default function Home() {
           {STORIES.map((s, i) => <Story key={s.slug} index={i} {...s} />)}
         </div>
       </section>
+      <Benefits />
       <Tread />
-      <Marquee text="Find your season edit" plain />
+      <Marquee text="Sleep pretty · Wake up smooth" plain />
     </>
   );
 }

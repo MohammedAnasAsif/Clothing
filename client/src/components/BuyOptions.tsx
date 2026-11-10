@@ -7,7 +7,7 @@ import { useStore } from '../lib/store';
 export function BuyOptions({ p, compact, onSizeGuide }: { p: Product; compact?: boolean; onSizeGuide?: () => void }) {
   const { addToCart, toggleWishlist, inWishlist } = useStore();
   const [color, setColor] = useState(p.colors[0].name);
-  const [size, setSize] = useState<string | null>(null);
+  const [size, setSize] = useState<string | null>(p.sizes.length === 1 ? p.sizes[0] : null);
   const [qty, setQty] = useState(1);
   const [needSize, setNeedSize] = useState(false);
   const saved = inWishlist(p.slug);
@@ -45,6 +45,7 @@ export function BuyOptions({ p, compact, onSizeGuide }: { p: Product; compact?: 
         </div>
       </div>
 
+      {p.sizes.length > 1 && (
       <div>
         <div className="buy__label">
           <span>
@@ -78,6 +79,7 @@ export function BuyOptions({ p, compact, onSizeGuide }: { p: Product; compact?: 
           </p>
         )}
       </div>
+      )}
 
       <div className="buy__row" style={compact ? { gridTemplateColumns: 'auto 1fr' } : undefined}>
         <div className="qty qty--lg" aria-label="Quantity">

@@ -1,7 +1,8 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import { RotateCcw, Star, Truck, Wallet, X } from 'lucide-react';
+import { AtSign, Star, Truck, Wallet, X } from 'lucide-react';
+import { BRAND, categories } from '../../../shared/catalog';
 import type { Review } from '../../../shared/types';
 import { discountPct } from '../../../shared/query';
 import { api } from '../lib/api';
@@ -58,16 +59,44 @@ function Gallery({ images, name }: { images: string[]; name: string }) {
   );
 }
 
-function SizeGuide({ open, onClose, women }: { open: boolean; onClose: () => void; women: boolean }) {
+const GUIDES: Record<string, { note: string; head: string[]; rows: string[][] }> = {
+  scrunchies: {
+    note: 'Approximate diameter when relaxed.',
+    head: ['Size', 'Diameter', 'Best for'],
+    rows: [['Mini', '2.5 in', 'Fine hair, braids, half-ups'], ['Regular', '3.5 in', 'Everyday ponytails and buns'], ['XL', '5 in', 'Thick hair and a fuller look']],
+  },
+  'eye-masks': {
+    note: 'Approximate mask size, band not included.',
+    head: ['Size', 'Width × height', 'Best for'],
+    rows: [['Regular', '8 × 3.5 in', 'Most faces'], ['Large', '9 × 4 in', 'More coverage and blackout']],
+  },
+  'pillow-covers': {
+    note: 'Choose the size of your pillow.',
+    head: ['Size', 'Fits pillow', ''],
+    rows: [['Standard', '18 × 28 in', ''], ['Queen', '20 × 30 in', ''], ['King', '20 × 36 in', '']],
+  },
+  'gift-sets': {
+    note: 'The size refers to the pillow cover in the set.',
+    head: ['Size', 'Fits pillow', ''],
+    rows: [['Standard', '18 × 28 in', ''], ['Queen', '20 × 30 in', '']],
+  },
+  pajamas: {
+    note: 'Body measurements in inches. Between sizes? Size up for a relaxed fit.',
+    head: ['Size', 'Bust', 'Waist'],
+    rows: [['S', '34', '28'], ['M', '36', '30'], ['L', '38', '32'], ['XL', '40', '34']],
+  },
+};
+
+function SizeGuide({ open, onClose, category }: { open: boolean; onClose: () => void; category: string }) {
   useEffect(() => {
     if (!open) return;
     const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', k);
     return () => window.removeEventListener('keydown', k);
   }, [open, onClose]);
-  const rows = women
-    ? [['XS', '32', '26', '35'], ['S', '34', '28', '37'], ['M', '36', '30', '39'], ['L', '38', '32', '41'], ['XL', '40', '34', '43']]
-    : [['XS', '36', '30', '26'], ['S', '38', '32', '27'], ['M', '40', '34', '28'], ['L', '42', '36', '29'], ['XL', '44', '38', '30'], ['XXL', '46', '40', '31']];
+  const guide = GUIDES[category];
+  if (!guide) return null;
+  const cols = guide.head.filter(Boolean).length;
   return (
     <AnimatePresence>
       {open && (
@@ -77,10 +106,10 @@ function SizeGuide({ open, onClose, women }: { open: boolean; onClose: () => voi
             <motion.div className="modal__card" role="dialog" aria-modal="true" aria-label="Size guide" style={{ width: 'min(620px, 100%)', padding: 32 }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
               <button className="icon-btn modal__close" onClick={onClose} aria-label="Close size guide"><X size={20} strokeWidth={1.5} /></button>
               <h2 className="serif" style={{ fontSize: 32, fontWeight: 400, marginBottom: 6 }}>Size guide</h2>
-              <p className="muted" style={{ marginBottom: 20, fontSize: 14 }}>Body measurements in inches. Between sizes? Size up for a relaxed fit.</p>
+              <p className="muted" style={{ marginBottom: 20, fontSize: 14 }}>{guide.note}</p>
               <table className="table">
-                <thead><tr><th>Size</th><th>Chest</th><th>Waist</th><th>{women ? 'Hip' : 'Length'}</th></tr></thead>
-                <tbody>{rows.map((r) => <tr key={r[0]}>{r.map((c, i) => <td key={i}>{c}</td>)}</tr>)}</tbody>
+                <thead><tr>{guide.head.slice(0, cols).map((h) => <th key={h}>{h}</th>)}</tr></thead>
+                <tbody>{guide.rows.map((r) => <tr key={r[0]}>{r.slice(0, cols).map((c, i) => <td key={i}>{c}</td>)}</tr>)}</tbody>
               </table>
             </motion.div>
           </div>
@@ -140,8 +169,8 @@ export default function ProductPage() {
   const [extra, setExtra] = useState<Review[]>([]);
   useEffect(() => { setExtra([]); setTab('details'); }, [slug]);
   useEffect(() => {
-    if (data) document.title = `${data.product.name} — ST CLOTHINGS`;
-    return () => { document.title = 'ST CLOTHINGS — T-Shirts, Shirts, Hoodies & Ladies Wear'; };
+    if (data) document.title = `${data.product.name} — Style Heaven`;
+    return () => { document.title = 'Style Heaven — Satin Scrunchies, Eye Masks & Pillow Covers'; };
   }, [data]);
 
   if (error && (error as { status?: number }).status === 404) return <NotFound />;
@@ -162,7 +191,7 @@ export default function ProductPage() {
   const count = reviews.length;
   const avg = count ? reviews.reduce((s, r) => s + r.rating, 0) / count : 0;
   const off = discountPct(p);
-  const catName = p.category.replace('-', ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  const catName = categories.find((c) => c.slug === p.category)?.name ?? p.category;
 
   return (
     <>
@@ -182,21 +211,26 @@ export default function ProductPage() {
               </div>
             )}
             <h1>{p.name}</h1>
-            <button className="link-u" style={{ justifySelf: 'start', paddingBottom: 2 }} onClick={() => { setTab('reviews'); document.getElementById('ptabs')?.scrollIntoView({ behavior: 'smooth' }); }}>
-              <Stars rating={Math.round(avg * 10) / 10} count={count} />
+            <button className="link-u" style={{ justifySelf: 'start', paddingBottom: 2, fontSize: 12.5 }} onClick={() => { setTab('reviews'); document.getElementById('ptabs')?.scrollIntoView({ behavior: 'smooth' }); }}>
+              {count ? <Stars rating={Math.round(avg * 10) / 10} count={count} /> : 'No reviews yet. Write the first one'}
             </button>
             <Price p={p} large />
             <span className="muted" style={{ fontSize: 12.5 }}>Inclusive of all taxes</span>
           </div>
           <p className="buy__desc">{p.description}</p>
-          <BuyOptions key={p.slug} p={p} onSizeGuide={() => setGuide(true)} />
+          <BuyOptions key={p.slug} p={p} onSizeGuide={GUIDES[p.category] && p.sizes.length > 1 ? () => setGuide(true) : undefined} />
           <span className={`buy__stock${p.stock < 12 ? ' is-low' : ''}`}>
             {p.stock === 0 ? 'Out of stock' : p.stock < 12 ? `Only ${p.stock} left — order soon` : 'In stock, ready to ship'}
           </span>
           <div className="perks">
-            <div><Truck size={18} strokeWidth={1.4} /> Free shipping on orders over ₹1,999 · Dispatched in 1–2 days</div>
-            <div><RotateCcw size={18} strokeWidth={1.4} /> Easy 7-day returns and size exchanges</div>
+            <div><Truck size={18} strokeWidth={1.4} /> Free shipping on orders over ₹999</div>
             <div><Wallet size={18} strokeWidth={1.4} /> Cash on delivery and UPI available</div>
+            <div>
+              <AtSign size={18} strokeWidth={1.4} />
+              <span>
+                Prefer Instagram? <a className="link-u" href={BRAND.instagramUrl} target="_blank" rel="noreferrer">DM @{BRAND.instagram}</a> with “{p.name}”
+              </span>
+            </div>
           </div>
           <div className="meta">
             <span>SKU: <b>{p.sku}</b></span>
@@ -217,11 +251,11 @@ export default function ProductPage() {
               <div style={{ display: 'grid', gap: 16 }}>
                 <h3 className="serif" style={{ fontSize: 28, fontWeight: 400 }}>About this piece</h3>
                 <p style={{ color: 'var(--ink-2)' }}>{p.description}</p>
-                <p className="muted" style={{ fontSize: 14 }}><b style={{ color: 'var(--ink)' }}>Fit:</b> {p.fit}. <b style={{ color: 'var(--ink)' }}>Fabric:</b> {p.fabric}.</p>
+                <p className="muted" style={{ fontSize: 14 }}><b style={{ color: "var(--ink)" }}>Size & fit:</b> {p.fit}. <b style={{ color: 'var(--ink)' }}>Fabric:</b> {p.fabric}.</p>
               </div>
               <ul>
                 {p.details.map((d) => <li key={d}>{d}</li>)}
-                <li>Care: machine wash cold, dry in shade, warm iron</li>
+                <li>Care: hand wash or gentle cycle cold, dry in shade</li>
               </ul>
             </div>
           ) : (
@@ -268,7 +302,7 @@ export default function ProductPage() {
           </div>
         </section>
       )}
-      <SizeGuide open={guide} onClose={() => setGuide(false)} women={p.gender === 'women'} />
+      <SizeGuide open={guide} onClose={() => setGuide(false)} category={p.category} />
     </>
   );
 }

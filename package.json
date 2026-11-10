@@ -1,7 +1,7 @@
 {
-  "name": "st-clothings",
+  "name": "style-heaven",
   "private": true,
-  "description": "ST CLOTHINGS — full-stack storefront (React + Express + SQLite)",
+  "description": "Style Heaven — full-stack storefront (React + Express + SQLite)",
   "workspaces": [
     "server",
     "client"

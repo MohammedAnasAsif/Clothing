@@ -22,7 +22,7 @@ const orderBody = z.object({
     .array(
       z.object({
         slug: z.string().max(80),
-        size: z.string().max(5),
+        size: z.string().max(20),
         color: z.string().max(40),
         qty: z.number().int().min(1).max(10),
       }),
@@ -40,7 +40,7 @@ class OrderError extends Error {
 function orderNumber() {
   const d = new Date();
   const ymd = `${String(d.getFullYear()).slice(2)}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
-  return `ST-${ymd}-${randomInt(1000, 9999)}`;
+  return `SH-${ymd}-${randomInt(1000, 9999)}`;
 }
 
 orders.post('/orders', rateLimit(10, 60_000), (req, res) => {

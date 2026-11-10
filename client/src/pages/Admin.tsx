@@ -12,7 +12,7 @@ interface Summary {
 
 /** Minimal back office: orders, messages, subscribers. Protected by ADMIN_TOKEN on the server. */
 export default function Admin() {
-  const [token, setToken] = useState(() => sessionStorage.getItem('st:admin') ?? '');
+  const [token, setToken] = useState(() => sessionStorage.getItem('sh:admin') ?? '');
   const [data, setData] = useState<Summary | null>(null);
   const [error, setError] = useState('');
 
@@ -20,7 +20,7 @@ export default function Admin() {
     setError('');
     try {
       setData(await api.admin<Summary>('/summary', t));
-      sessionStorage.setItem('st:admin', t);
+      sessionStorage.setItem('sh:admin', t);
     } catch (e) {
       setData(null);
       setError((e as Error).message);

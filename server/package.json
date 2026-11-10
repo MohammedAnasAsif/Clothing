@@ -1,11 +1,11 @@
 {
-  "name": "@st-clothings/server",
+  "name": "@style-heaven/server",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "tsx watch --clear-screen=false src/index.ts",
     "start": "NODE_ENV=production tsx src/index.ts",
-    "seed:reset": "rm -f data/st-clothings.db* && tsx src/seed.ts",
+    "seed:reset": "rm -f data/style-heaven.db* && tsx src/seed.ts",
     "test": "node --test --import tsx test/*.test.ts",
     "typecheck": "tsc --noEmit"
   },

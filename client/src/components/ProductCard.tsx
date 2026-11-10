@@ -59,7 +59,7 @@ export function ProductCard({ p, eager }: { p: Product; eager?: boolean }) {
           <Link to={`/product/${p.slug}`}>{p.name}</Link>
         </h3>
         <Price p={p} />
-        <Stars rating={p.rating} count={p.reviewCount} />
+        {p.reviewCount > 0 && <Stars rating={p.rating} count={p.reviewCount} />}
         <p className="card__desc">{p.description}</p>
       </div>
     </article>

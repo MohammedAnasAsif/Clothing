@@ -46,15 +46,15 @@ function save(key: string, value: unknown) {
 }
 
 export function StoreProvider({ children }: { children: ReactNode }) {
-  const [cart, setCart] = useState<CartItem[]>(() => load('st:cart', []));
-  const [wishlist, setWishlist] = useState<string[]>(() => load('st:wishlist', []));
+  const [cart, setCart] = useState<CartItem[]>(() => load('sh:cart', []));
+  const [wishlist, setWishlist] = useState<string[]>(() => load('sh:wishlist', []));
   const [cartOpen, setCartOpen] = useState(false);
   const [quickView, setQuickView] = useState<Product | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const toastTimer = useRef<number | undefined>(undefined);
 
-  useEffect(() => save('st:cart', cart), [cart]);
-  useEffect(() => save('st:wishlist', wishlist), [wishlist]);
+  useEffect(() => save('sh:cart', cart), [cart]);
+  useEffect(() => save('sh:wishlist', wishlist), [wishlist]);
 
   const notify = useCallback((msg: string) => {
     setToast(msg);
@@ -65,7 +65,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const addToCart: StoreValue['addToCart'] = useCallback((p, opts = {}) => {
     const line: CartItem = {
       slug: p.slug,
-      size: opts.size ?? p.sizes[Math.min(2, p.sizes.length - 1)],
+      size: opts.size ?? (['Regular', 'Standard', 'M'].find((x) => p.sizes.includes(x)) ?? p.sizes[0]),
       color: opts.color ?? p.colors[0].name,
       qty: opts.qty ?? 1,
       name: p.name,

@@ -1,10 +1,10 @@
-# ST CLOTHINGS
+# Style Heaven
 
-Full-stack storefront for ST CLOTHINGS — T-shirts, shirts, hoodies and ladies wear.
+Full-stack storefront for **Style Heaven** ([@style_.heaven_](https://www.instagram.com/style_.heaven_/)) — satin scrunchies, eye masks, pillow covers, bows, combos and pajamas.
 
-- **Frontend:** React 19 + Vite, React Router, Motion (animations), lucide icons. Plain CSS design system in `client/src/styles/global.css` (Bodoni Moda + Instrument Sans, ink on white).
+- **Frontend:** React 19 + Vite, React Router, Motion (animations), lucide icons. Plain CSS design system in `client/src/styles/global.css` (Bodoni Moda + Instrument Sans, with a signature script for the logo; ink on white with powder blue).
 - **Backend:** Express 5 + SQLite (Node's built-in `node:sqlite`, no native builds), Zod validation, Helmet, rate limiting.
-- **Shared:** `shared/` holds the types, the seed catalogue (34 products, 4 categories, reviews) and query logic used by both sides.
+- **Shared:** `shared/` holds the types, the seed catalogue (33 products in 6 categories) and brand details and query logic used by both sides.
 
 ## Run it
 
@@ -16,7 +16,7 @@ cp .env.example .env        # optional: set ADMIN_TOKEN to enable /admin
 npm run dev                 # API on :4000, storefront on http://localhost:5173
 ```
 
-The database is created and seeded automatically on first start (`server/data/st-clothings.db`).
+The database is created and seeded automatically on first start (`server/data/style-heaven.db`).
 Reset it with `npm run seed:reset -w server`.
 
 ### Production
@@ -71,8 +71,10 @@ PATCH /api/admin/orders/:number          { status }
 
 ## Before launch
 
-- **Photos:** product and editorial images are Unsplash placeholders referenced by id in `shared/catalog.ts`. Swap in your own product photography (any URL works if you change `img()` in `client/src/lib/format.ts`, and add the host to the CSP in `server/src/app.ts`).
-- **Copy and details:** contact email, legal pages and prices are placeholders — replace with your own.
+- **Photos:** product and editorial images are Unsplash placeholders (satin scrunchies, masks, bedding and swatches) — the pillow covers and colour combos in particular should be swapped for Style Heaven's own photos. They are referenced by id in `shared/catalog.ts`. Swap in your own product photography (any URL works if you change `img()` in `client/src/lib/format.ts`, and add the host to the CSP in `server/src/app.ts`).
+- **Prices, stock, sizes and shipping:** placeholders. Edit prices/stock in `shared/catalog.ts`, the free-shipping threshold (₹999) and fee (₹60) in `shared/types.ts`, and the size charts in `client/src/pages/Product.tsx`.
+- **Reviews:** the store starts with no reviews; customer reviews appear as they are posted.
+- **Legal copy:** the Terms and Privacy pages are placeholders, including the returns policy.
 - **Payments:** checkout supports cash/UPI on delivery. To take online payments, add a Razorpay or Stripe order step in `server/src/routes/orders.ts` before the order is stored.
 - **Database:** SQLite is fine for a single server. For multiple instances, move the queries in `server/src` to Postgres.
 

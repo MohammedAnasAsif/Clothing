@@ -102,5 +102,6 @@ export interface ProductPage {
   pages: number;
 }
 
-export const FREE_SHIPPING_FROM = 1999;
-export const SHIPPING_FEE = 99;
+// Placeholder policy — set Style Heaven's real shipping rules here.
+export const FREE_SHIPPING_FROM = 999;
+export const SHIPPING_FEE = 60;

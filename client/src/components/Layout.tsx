@@ -2,15 +2,16 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { Link, NavLink, Outlet, ScrollRestoration, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { ChevronDown, Heart, Menu, Search, ShoppingBag } from 'lucide-react';
+import { BRAND } from '../../../shared/catalog';
 import { api } from '../lib/api';
 import { img } from '../lib/format';
 import { useAsync, useStore } from '../lib/store';
 import { CartDrawer, MobileMenu, QuickView, SearchOverlay, Toast } from './Overlays';
 
 const MESSAGES = [
-  'Free shipping across India on orders over ₹1,999',
-  'New season hoodies have landed — heavier than ever',
-  'Easy 7-day returns · Cash on delivery available',
+  'Free shipping across India on orders over ₹999',
+  'Satin combos: pillow cover, eye mask and scrunchie from ₹799',
+  'Order online or via Instagram DM · Wholesale welcome',
 ];
 
 function Announcement() {
@@ -83,8 +84,8 @@ function Header() {
                 )}
               </AnimatePresence>
             </div>
-            <NavLink to="/shop?gender=women" className={() => (location.search.includes('gender=women') ? 'active' : '')}>Women</NavLink>
-            <NavLink to="/shop?gender=men" className={() => (location.search.includes('gender=men') ? 'active' : '')}>Men</NavLink>
+            <NavLink to="/category/gift-sets">Combos</NavLink>
+            <NavLink to="/category/pajamas">Pajamas</NavLink>
             <NavLink to="/shop?sale=1" className={() => (location.search.includes('sale=1') ? 'active' : '')}>Sale</NavLink>
           </nav>
 
@@ -92,8 +93,9 @@ function Header() {
             <Menu size={21} strokeWidth={1.5} />
           </button>
 
-          <Link to="/" className="logo" aria-label="ST CLOTHINGS home">
-            ST CLOTHINGS
+          <Link to="/" className="logo" aria-label="Style Heaven home">
+            <span className="logo__script" aria-hidden>Style</span>
+            <span className="logo__caps" aria-hidden>Heaven</span>
           </Link>
 
           <div className="header__actions">
@@ -133,8 +135,8 @@ function Newsletter() {
   };
   return (
     <div className="footer__news">
-      <h4>Subscribe to our emails</h4>
-      <p>New drops, studio notes and early access to sale — plus 10% off your first order.</p>
+      <h4>Join the Style Heaven list</h4>
+      <p>Hear first about new colours, restocks and combo offers.</p>
       <form onSubmit={submit} noValidate>
         <label className="sr-only" htmlFor="news-email">Email address</label>
         <input id="news-email" type="email" required placeholder="Enter your email address" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -160,44 +162,43 @@ function Footer() {
             <h4>Shop</h4>
             <ul>
               <li><Link to="/shop">Shop all</Link></li>
-              <li><Link to="/shop?gender=women">Women</Link></li>
-              <li><Link to="/shop?gender=men">Men</Link></li>
-              <li><Link to="/shop?sale=1">Sale</Link></li>
+              <li><Link to="/category/scrunchies">Scrunchies</Link></li>
+              <li><Link to="/category/eye-masks">Eye Masks</Link></li>
+              <li><Link to="/category/pillow-covers">Pillow Covers</Link></li>
+              <li><Link to="/category/bows">Bows</Link></li>
+              <li><Link to="/category/gift-sets">Combos & Gift Sets</Link></li>
+              <li><Link to="/category/pajamas">Pajamas</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Help</h4>
+            <ul>
+              <li><Link to="/track">Track an order</Link></li>
               <li><Link to="/wishlist">Wishlist</Link></li>
               <li><Link to="/cart">Your cart</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Categories</h4>
-            <ul>
-              <li><Link to="/category/t-shirts">T-Shirts</Link></li>
-              <li><Link to="/category/shirts">Shirts</Link></li>
-              <li><Link to="/category/hoodies">Hoodies & Sweatshirts</Link></li>
-              <li><Link to="/category/ladies-wear">Ladies Wear</Link></li>
-              <li><Link to="/shop?type=Dress">Dresses</Link></li>
-              <li><Link to="/shop?type=Graphic%20tee">Graphic tees</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Company</h4>
-            <ul>
-              <li><Link to="/about">About ST CLOTHINGS</Link></li>
-              <li><Link to="/contact">Contact us</Link></li>
-              <li><Link to="/track">Track an order</Link></li>
               <li><Link to="/terms">Terms & Conditions</Link></li>
               <li><Link to="/privacy">Privacy Policy</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Style Heaven</h4>
+            <ul>
+              <li><Link to="/about">About us</Link></li>
+              <li><Link to="/contact">Contact & wholesale</Link></li>
+              <li><a href={BRAND.instagramUrl} target="_blank" rel="noreferrer">Instagram @{BRAND.instagram}</a></li>
+              <li><span style={{ color: '#b7b2aa' }}>Call {BRAND.phone}</span></li>
             </ul>
           </div>
           <Newsletter />
         </div>
         <div className="footer__bar">
-          <span>© {new Date().getFullYear()} ST CLOTHINGS · All rights reserved</span>
+          <span>© {new Date().getFullYear()} Style Heaven · All rights reserved</span>
           <div className="pay" aria-label="Payment methods">
-            <span>UPI</span><span>RuPay</span><span>Visa</span><span>Mastercard</span><span>COD</span>
+            <span>UPI</span><span>Cash on delivery</span>
           </div>
         </div>
       </div>
-      <div className="footer__mark" aria-hidden>ST CLOTHINGS</div>
+      <div className="footer__mark" aria-hidden>Style Heaven</div>
     </footer>
   );
 }

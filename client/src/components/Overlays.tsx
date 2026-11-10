@@ -132,7 +132,7 @@ export function CartDrawer() {
         <div className="empty" style={{ padding: '60px 0' }}>
           <ShoppingBag size={34} strokeWidth={1} />
           <h2 style={{ fontSize: 28 }}>Your cart is empty</h2>
-          <p>Start with the pieces everyone comes back for.</p>
+          <p>Start with a satin scrunchie or a colour combo.</p>
           <button className="btn" onClick={() => { close(); navigate('/shop'); }}>Shop all</button>
         </div>
       ) : (
@@ -196,7 +196,7 @@ export function QuickView() {
                   {off > 0 && <span className="buy__save">Save {off}%</span>}
                   <h2 className="serif" style={{ fontSize: 34, fontWeight: 400, lineHeight: 1.05 }}>{p.name}</h2>
                   <Price p={p} large />
-                  <Stars rating={p.rating} count={p.reviewCount} />
+                  {p.reviewCount > 0 && <Stars rating={p.rating} count={p.reviewCount} />}
                   <p className="muted" style={{ fontSize: 14.5 }}>{p.description}</p>
                   <BuyOptions key={p.slug} p={p} compact />
                   <Link to={`/product/${p.slug}`} className="link-u" onClick={close} style={{ justifySelf: 'start' }}>
@@ -259,14 +259,14 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                 onSubmit={(e) => { e.preventDefault(); if (q.trim()) go(`/shop?q=${encodeURIComponent(q.trim())}`); }}
               >
                 <Search size={24} strokeWidth={1.3} />
-                <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search tees, shirts, dresses…" aria-label="Search products" />
+                <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search scrunchies, eye masks, combos…" aria-label="Search products" />
                 <button type="button" className="icon-btn" onClick={onClose} aria-label="Close search"><X size={22} strokeWidth={1.4} /></button>
               </form>
               {q.trim().length < 2 ? (
                 <div style={{ marginTop: 22 }}>
                   <p className="eyebrow muted" style={{ marginBottom: 12 }}>Popular searches</p>
                   <div className="chips">
-                    {['Hoodie', 'Linen', 'Oxford', 'Dress', 'Oversized', 'Graphic tee'].map((s) => (
+                    {['Scrunchie', 'Eye mask', 'Pillow', 'Bow', 'Combo', 'Pajama'].map((s) => (
                       <button key={s} className="chip" onClick={() => setQ(s)}>{s}</button>
                     ))}
                   </div>
@@ -307,14 +307,13 @@ export function MobileMenu({ open, onClose, categories }: { open: boolean; onClo
             ))}
           </div>
         )}
-        <Link to="/shop?gender=women" onClick={onClose}>Women</Link>
-        <Link to="/shop?gender=men" onClick={onClose}>Men</Link>
+        <Link to="/shop" onClick={onClose}>Shop all</Link>
         <Link to="/shop?sale=1" onClick={onClose}>Sale</Link>
         <Link to="/wishlist" onClick={onClose}>Wishlist</Link>
         <Link to="/about" onClick={onClose}>About us</Link>
         <Link to="/contact" onClick={onClose}>Contact</Link>
       </nav>
-      <p className="muted" style={{ fontSize: 12, marginTop: 26 }}>© {new Date().getFullYear()} ST CLOTHINGS. All rights reserved.</p>
+      <p className="muted" style={{ fontSize: 12, marginTop: 26 }}>© {new Date().getFullYear()} Style Heaven. All rights reserved.</p>
     </Drawer>
   );
 }
