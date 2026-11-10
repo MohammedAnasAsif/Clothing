@@ -126,19 +126,27 @@ function SliceBanner() {
   const url = img(IMAGES.combo, 2000);
   return (
     <section className="slice-banner" aria-label="Combos">
-      <div className="slices" style={{ ['--n' as string]: n }} aria-hidden>
+      <motion.div
+        className="slices"
+        style={{ ['--n' as string]: n }}
+        aria-hidden
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-15% 0px' }}
+      >
         {Array.from({ length: n }, (_, i) => (
           <div key={i}>
             <motion.div
               style={{ left: `${-i * 100}%`, backgroundImage: `url(${url})` }}
-              initial={{ y: i % 2 ? '100%' : '-100%' }}
-              whileInView={{ y: '0%' }}
-              viewport={{ once: true, margin: '-15% 0px' }}
-              transition={{ duration: 1.3, ease, delay: 0.06 * i }}
+              custom={i}
+              variants={{
+                hidden: (k: number) => ({ y: k % 2 ? '100%' : '-100%' }),
+                show: (k: number) => ({ y: '0%', transition: { duration: 1.3, ease, delay: 0.06 * k } }),
+              }}
             />
           </div>
         ))}
-      </div>
+      </motion.div>
       <div className="slice-banner__content">
         <div className="container">
           <div className="inner">

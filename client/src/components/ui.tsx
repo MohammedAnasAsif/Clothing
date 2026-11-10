@@ -41,7 +41,13 @@ export function Price({ p, large }: { p: Pick<Product, 'price' | 'compareAt'>; l
   );
 }
 
-/** Headline whose lines rise from behind their baseline as they enter view. */
+const riseEase = [0.22, 1, 0.36, 1] as const;
+
+/**
+ * Headline whose lines rise from behind their baseline as they enter view.
+ * The in-view trigger sits on the heading itself: the line spans start clipped by their mask,
+ * so observing them directly would never report them as visible.
+ */
 export function Rise({
   lines,
   as: Tag = 'h2',
@@ -55,20 +61,26 @@ export function Rise({
   delay?: number;
   immediate?: boolean;
 }) {
+  const M = motion[Tag];
   return (
-    <Tag className={className}>
+    <M
+      className={className}
+      initial="hidden"
+      {...(immediate ? { animate: 'show' } : { whileInView: 'show', viewport: { once: true, margin: '-8% 0px' } })}
+    >
       {lines.map((line, i) => (
         <span className="rise" key={i}>
           <motion.span
-            initial={{ y: '105%' }}
-            {...(immediate ? { animate: { y: '0%' } } : { whileInView: { y: '0%' }, viewport: { once: true, margin: '-8% 0px' } })}
-            transition={{ duration: 1.05, ease: [0.22, 1, 0.36, 1], delay: delay + i * 0.09 }}
+            variants={{
+              hidden: { y: '105%' },
+              show: { y: '0%', transition: { duration: 1.05, ease: riseEase, delay: delay + i * 0.09 } },
+            }}
           >
             {line}
           </motion.span>
         </span>
       ))}
-    </Tag>
+    </M>
   );
 }
 
