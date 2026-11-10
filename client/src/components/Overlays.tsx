@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import { ChevronRight, Minus, Plus, Search, ShoppingBag, X } from 'lucide-react';
+import { ChevronRight, MessageCircle, Minus, Plus, Search, ShoppingBag, X } from 'lucide-react';
 import { FREE_SHIPPING_FROM } from '../../../shared/types';
 import { discountPct } from '../../../shared/query';
 import { api, type CategoryWithCount } from '../lib/api';
 import { img, money } from '../lib/format';
 import { lineKey, useStore } from '../lib/store';
 import { BuyOptions } from './BuyOptions';
+import { cartMessage, waLink } from '../lib/whatsapp';
 import { Price, Stars } from './ui';
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -103,7 +104,7 @@ export function ShippingBar({ subtotal }: { subtotal: number }) {
 }
 
 export function CartDrawer() {
-  const { cart, cartOpen, setCartOpen, setQty, removeLine, subtotal, cartCount } = useStore();
+  const { cart, cartOpen, setCartOpen, setQty, removeLine, subtotal, shipping, cartCount } = useStore();
   const close = () => setCartOpen(false);
   const navigate = useNavigate();
   return (
@@ -124,6 +125,9 @@ export function CartDrawer() {
               <button className="btn btn--ghost" onClick={() => { close(); navigate('/cart'); }}>View cart</button>
               <button className="btn" onClick={() => { close(); navigate('/checkout'); }}>Checkout</button>
             </div>
+            <a className="btn btn--wa btn--block" href={waLink(cartMessage(cart, subtotal, shipping))} target="_blank" rel="noreferrer">
+              <MessageCircle size={17} strokeWidth={1.8} /> Order on WhatsApp instead
+            </a>
           </>
         )
       }
@@ -266,7 +270,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                 <div style={{ marginTop: 22 }}>
                   <p className="eyebrow muted" style={{ marginBottom: 12 }}>Popular searches</p>
                   <div className="chips">
-                    {['Scrunchie', 'Eye mask', 'Pillow', 'Bow', 'Combo', 'Pajama'].map((s) => (
+                    {['Scrunchie', 'Sleep set', 'Pillow', 'Eye mask', 'Bow clip', 'Combo'].map((s) => (
                       <button key={s} className="chip" onClick={() => setQ(s)}>{s}</button>
                     ))}
                   </div>

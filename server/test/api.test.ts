@@ -38,7 +38,7 @@ const customer = {
 test('lists the four categories with counts', async () => {
   const { status, body } = await json('/categories');
   assert.equal(status, 200);
-  assert.deepEqual(body.map((c: any) => c.slug), ['scrunchies', 'eye-masks', 'pillow-covers', 'bows', 'gift-sets', 'pajamas']);
+  assert.deepEqual(body.map((c: any) => c.slug), ['scrunchies', 'sleep-sets', 'pillow-covers', 'eye-masks', 'bow-clips', 'gifting-sets']);
   assert.ok(body.every((c: any) => c.count >= 4));
 });
 
@@ -108,7 +108,7 @@ test('places an order using server-side prices and reduces stock', async () => {
 test('rejects orders for unknown sizes or more than the stock', async () => {
   const size = await json('/orders', {
     method: 'POST',
-    body: JSON.stringify({ customer, payment: 'upi', items: [{ slug: 'satin-pajama-set', size: 'XXL', color: 'Onion Pink', qty: 1 }] }),
+    body: JSON.stringify({ customer, payment: 'upi', items: [{ slug: 'satin-sleep-set', size: 'XXL', color: 'Onion Pink', qty: 1 }] }),
   });
   assert.equal(size.status, 400);
 

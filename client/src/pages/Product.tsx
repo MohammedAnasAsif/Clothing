@@ -1,8 +1,9 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import { AtSign, Star, Truck, Wallet, X } from 'lucide-react';
+import { MessageCircle, Star, Truck, Wallet, X } from 'lucide-react';
 import { BRAND, categories } from '../../../shared/catalog';
+import { waLink } from '../lib/whatsapp';
 import type { Review } from '../../../shared/types';
 import { discountPct } from '../../../shared/query';
 import { api } from '../lib/api';
@@ -75,12 +76,12 @@ const GUIDES: Record<string, { note: string; head: string[]; rows: string[][] }>
     head: ['Size', 'Fits pillow', ''],
     rows: [['Standard', '18 × 28 in', ''], ['Queen', '20 × 30 in', ''], ['King', '20 × 36 in', '']],
   },
-  'gift-sets': {
+  'gifting-sets': {
     note: 'The size refers to the pillow cover in the set.',
     head: ['Size', 'Fits pillow', ''],
     rows: [['Standard', '18 × 28 in', ''], ['Queen', '20 × 30 in', '']],
   },
-  pajamas: {
+  'sleep-sets': {
     note: 'Body measurements in inches. Between sizes? Size up for a relaxed fit.',
     head: ['Size', 'Bust', 'Waist'],
     rows: [['S', '34', '28'], ['M', '36', '30'], ['L', '38', '32'], ['XL', '40', '34']],
@@ -169,8 +170,8 @@ export default function ProductPage() {
   const [extra, setExtra] = useState<Review[]>([]);
   useEffect(() => { setExtra([]); setTab('details'); }, [slug]);
   useEffect(() => {
-    if (data) document.title = `${data.product.name} — Style Heaven`;
-    return () => { document.title = 'Style Heaven — Satin Scrunchies, Eye Masks & Pillow Covers'; };
+    if (data) document.title = `${data.product.name} — STYLE HEAVEN`;
+    return () => { document.title = 'STYLE HEAVEN — Satin Scrunchies, Sleep Sets & Gifting · Trichy'; };
   }, [data]);
 
   if (error && (error as { status?: number }).status === 404) return <NotFound />;
@@ -223,12 +224,12 @@ export default function ProductPage() {
             {p.stock === 0 ? 'Out of stock' : p.stock < 12 ? `Only ${p.stock} left — order soon` : 'In stock, ready to ship'}
           </span>
           <div className="perks">
-            <div><Truck size={18} strokeWidth={1.4} /> Free shipping on orders over ₹999</div>
+            <div><Truck size={18} strokeWidth={1.4} /> Ships from Trichy · Free shipping on orders over ₹999</div>
             <div><Wallet size={18} strokeWidth={1.4} /> Cash on delivery and UPI available</div>
             <div>
-              <AtSign size={18} strokeWidth={1.4} />
+              <MessageCircle size={18} strokeWidth={1.4} />
               <span>
-                Prefer Instagram? <a className="link-u" href={BRAND.instagramUrl} target="_blank" rel="noreferrer">DM @{BRAND.instagram}</a> with “{p.name}”
+                Questions about colours or sizes? <a className="link-u" href={waLink(`Hi ${BRAND.name}! I have a question about the ${p.name}.`)} target="_blank" rel="noreferrer">Ask us on WhatsApp</a>
               </span>
             </div>
           </div>

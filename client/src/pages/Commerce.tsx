@@ -1,11 +1,12 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Check, Heart, Minus, Plus, ShoppingBag } from 'lucide-react';
+import { Check, Heart, MessageCircle, Minus, Plus, ShoppingBag } from 'lucide-react';
 import type { Customer, Order } from '../../../shared/types';
 import { api, catalogIndex } from '../lib/api';
 import { INDIAN_STATES, fmtDate, img, money } from '../lib/format';
 import { lineKey, useAsync, useStore } from '../lib/store';
 import { ProductCard } from '../components/ProductCard';
+import { cartMessage, orderMessage, waLink } from '../lib/whatsapp';
 import { ShippingBar } from '../components/Overlays';
 
 function Head({ title, crumb }: { title: string; crumb: string }) {
@@ -79,6 +80,10 @@ export function CartPage() {
           <h2>Summary</h2>
           <Totals subtotal={subtotal} shipping={shipping} />
           <button className="btn btn--block" onClick={() => navigate('/checkout')}>Checkout</button>
+          <a className="btn btn--wa btn--block" href={waLink(cartMessage(cart, subtotal, shipping))} target="_blank" rel="noreferrer">
+            <MessageCircle size={17} strokeWidth={1.8} /> Order on WhatsApp
+          </a>
+          <p className="muted" style={{ fontSize: 12.5 }}>Opens WhatsApp with your order typed out, ready to send.</p>
         </aside>
       </div>
     </>
@@ -275,7 +280,12 @@ function OrderView({ order }: { order: Order }) {
           </div>
         </div>
       </div>
-      <Link to="/shop" className="btn" style={{ marginTop: 10 }}>Continue shopping</Link>
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center', marginTop: 10 }}>
+        <a className="btn btn--wa" href={waLink(orderMessage(order))} target="_blank" rel="noreferrer">
+          <MessageCircle size={17} strokeWidth={1.8} /> Confirm on WhatsApp
+        </a>
+        <Link to="/shop" className="btn btn--ghost">Continue shopping</Link>
+      </div>
     </div>
   );
 }

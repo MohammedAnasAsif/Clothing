@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Heart, Minus, Plus } from 'lucide-react';
+import { Heart, MessageCircle, Minus, Plus } from 'lucide-react';
 import type { Product } from '../../../shared/types';
 import { useStore } from '../lib/store';
+import { productMessage, waLink } from '../lib/whatsapp';
 
 /** Colour, size and quantity pickers plus the add-to-cart / wishlist buttons. */
 export function BuyOptions({ p, compact, onSizeGuide }: { p: Product; compact?: boolean; onSizeGuide?: () => void }) {
@@ -107,6 +108,20 @@ export function BuyOptions({ p, compact, onSizeGuide }: { p: Product; compact?: 
           </button>
         )}
       </div>
+      <a
+        className="btn btn--wa btn--block"
+        href={waLink(productMessage(p, { color, size: size ?? undefined, qty }))}
+        target="_blank"
+        rel="noreferrer"
+        onClick={(e) => {
+          if (!size) {
+            e.preventDefault();
+            setNeedSize(true);
+          }
+        }}
+      >
+        <MessageCircle size={17} strokeWidth={1.8} /> Order on WhatsApp
+      </a>
     </div>
   );
 }

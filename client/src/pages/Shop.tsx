@@ -167,7 +167,7 @@ export default function Shop() {
         <div className="container page-head">
           <nav className="crumbs" aria-label="Breadcrumb"><Link to="/">Home</Link> / <span>Shop</span></nav>
           <Rise as="h1" lines={[query.sale ? 'Sale' : query.q ? 'Search' : 'Shop all']} immediate />
-          <p>{query.q ? `Results for “${query.q}”.` : 'Satin scrunchies, eye masks, pillow covers, bows, combos and pajamas.'}</p>
+          <p>{query.q ? `Results for “${query.q}”.` : 'Satin scrunchies, sleep sets, pillow covers, eye masks, bow clips and gifting sets.'}</p>
         </div>
       )}
 

@@ -1,17 +1,18 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, NavLink, Outlet, ScrollRestoration, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import { ChevronDown, Heart, Menu, Search, ShoppingBag } from 'lucide-react';
+import { ChevronDown, Heart, Menu, MessageCircle, Search, ShoppingBag } from 'lucide-react';
 import { BRAND } from '../../../shared/catalog';
 import { api } from '../lib/api';
 import { img } from '../lib/format';
 import { useAsync, useStore } from '../lib/store';
+import { greeting, waLink } from '../lib/whatsapp';
 import { CartDrawer, MobileMenu, QuickView, SearchOverlay, Toast } from './Overlays';
 
 const MESSAGES = [
   'Free shipping across India on orders over ₹999',
   'Satin combos: pillow cover, eye mask and scrunchie from ₹799',
-  'Order online or via Instagram DM · Wholesale welcome',
+  'Order online or on WhatsApp · Shipping from Trichy across India',
 ];
 
 function Announcement() {
@@ -84,8 +85,8 @@ function Header() {
                 )}
               </AnimatePresence>
             </div>
-            <NavLink to="/category/gift-sets">Combos</NavLink>
-            <NavLink to="/category/pajamas">Pajamas</NavLink>
+            <NavLink to="/category/sleep-sets">Sleep Sets</NavLink>
+            <NavLink to="/category/gifting-sets">Gifting Sets</NavLink>
             <NavLink to="/shop?sale=1" className={() => (location.search.includes('sale=1') ? 'active' : '')}>Sale</NavLink>
           </nav>
 
@@ -93,9 +94,8 @@ function Header() {
             <Menu size={21} strokeWidth={1.5} />
           </button>
 
-          <Link to="/" className="logo" aria-label="Style Heaven home">
-            <span className="logo__script" aria-hidden>Style</span>
-            <span className="logo__caps" aria-hidden>Heaven</span>
+          <Link to="/" className="logo" aria-label="STYLE HEAVEN home">
+            STYLE HEAVEN
           </Link>
 
           <div className="header__actions">
@@ -135,7 +135,7 @@ function Newsletter() {
   };
   return (
     <div className="footer__news">
-      <h4>Join the Style Heaven list</h4>
+      <h4>Join the STYLE HEAVEN list</h4>
       <p>Hear first about new colours, restocks and combo offers.</p>
       <form onSubmit={submit} noValidate>
         <label className="sr-only" htmlFor="news-email">Email address</label>
@@ -163,11 +163,11 @@ function Footer() {
             <ul>
               <li><Link to="/shop">Shop all</Link></li>
               <li><Link to="/category/scrunchies">Scrunchies</Link></li>
-              <li><Link to="/category/eye-masks">Eye Masks</Link></li>
+              <li><Link to="/category/sleep-sets">Sleep Sets</Link></li>
               <li><Link to="/category/pillow-covers">Pillow Covers</Link></li>
-              <li><Link to="/category/bows">Bows</Link></li>
-              <li><Link to="/category/gift-sets">Combos & Gift Sets</Link></li>
-              <li><Link to="/category/pajamas">Pajamas</Link></li>
+              <li><Link to="/category/eye-masks">Eye Masks</Link></li>
+              <li><Link to="/category/bow-clips">Bow Clips</Link></li>
+              <li><Link to="/category/gifting-sets">Gifting Sets</Link></li>
             </ul>
           </div>
           <div>
@@ -181,25 +181,36 @@ function Footer() {
             </ul>
           </div>
           <div>
-            <h4>Style Heaven</h4>
+            <h4>STYLE HEAVEN</h4>
             <ul>
               <li><Link to="/about">About us</Link></li>
               <li><Link to="/contact">Contact & wholesale</Link></li>
+              <li><a href={waLink(greeting())} target="_blank" rel="noreferrer">WhatsApp {BRAND.phone}</a></li>
               <li><a href={BRAND.instagramUrl} target="_blank" rel="noreferrer">Instagram @{BRAND.instagram}</a></li>
-              <li><span style={{ color: '#b7b2aa' }}>Call {BRAND.phone}</span></li>
+              <li><span className="footer__plain">{BRAND.email}</span></li>
+              <li><span className="footer__plain">{BRAND.location}</span></li>
             </ul>
           </div>
           <Newsletter />
         </div>
         <div className="footer__bar">
-          <span>© {new Date().getFullYear()} Style Heaven · All rights reserved</span>
+          <span>© {new Date().getFullYear()} STYLE HEAVEN · {BRAND.location} · All rights reserved</span>
           <div className="pay" aria-label="Payment methods">
             <span>UPI</span><span>Cash on delivery</span>
           </div>
         </div>
       </div>
-      <div className="footer__mark" aria-hidden>Style Heaven</div>
+      <div className="footer__mark" aria-hidden>STYLE HEAVEN</div>
     </footer>
+  );
+}
+
+function WhatsAppFab() {
+  return (
+    <a className="wa-fab" href={waLink(greeting())} target="_blank" rel="noreferrer" aria-label="Chat with STYLE HEAVEN on WhatsApp">
+      <MessageCircle size={24} strokeWidth={1.8} />
+      <span>Chat on WhatsApp</span>
+    </a>
   );
 }
 
@@ -213,6 +224,7 @@ export function Layout() {
         <Outlet />
       </main>
       <Footer />
+      <WhatsAppFab />
       <CartDrawer />
       <QuickView />
       <Toast />

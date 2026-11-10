@@ -1,7 +1,7 @@
 import type { Category, Color, Product, Review } from './types';
 
 /**
- * Style Heaven catalogue (seed data).
+ * STYLE HEAVEN catalogue (seed data).
  *
  * Product photos are Unsplash placeholders referenced by photo id; the client turns them into sized
  * URLs. Replace them with Style Heaven's own product photography before launch.
@@ -12,17 +12,21 @@ import type { Category, Color, Product, Review } from './types';
  */
 
 export const BRAND = {
-  name: 'Style Heaven',
+  name: 'STYLE HEAVEN',
+  location: 'Trichy, Tamil Nadu',
+  email: 'styleheaven0807@gmail.com',
   instagram: 'style_.heaven_',
   instagramUrl: 'https://www.instagram.com/style_.heaven_/',
   phone: '80562 21231',
   phoneRaw: '+918056221231',
+  /** WhatsApp number in international format, digits only (used for wa.me links). */
+  whatsapp: '918056221231',
 };
 
 export const IMAGES = {
   hero: '1742794565428-1a74fa73f1c9', // woman asleep on satin with an eye mask
   hair: '1701559459709-423baf04e60f', // satin scrunchie ponytail
-  sleep: '1766056278948-dbb10f6d82bf', // pink satin pajama set
+  sleep: '1766056278948-dbb10f6d82bf', // pink satin sleep set
   combo: '1745613999710-1aaf60145502', // soft peach bedroom
   satin: '1777566131335-c9b37dcbcdbd', // champagne satin
   studio: '1672699323645-75ace776093e', // stack of scrunchies on a bed
@@ -38,11 +42,11 @@ export const categories: Category[] = [
     image: '1606772016409-d4a55e32be6e',
   },
   {
-    slug: 'eye-masks',
-    name: 'Eye Masks',
-    tagline: 'Lights out, softly',
-    description: 'Satin sleep masks with a smooth face side and a comfortable band. For deeper sleep at home, on flights and on long train rides.',
-    image: '1687435703153-88f6bc0cdcff',
+    slug: 'sleep-sets',
+    name: 'Sleep Sets',
+    tagline: 'Sleepwear that feels like satin should',
+    description: 'Satin sleep sets with soft piping and an easy fit, in solids and prints.',
+    image: '1770294758942-7ce9ca052986',
   },
   {
     slug: 'pillow-covers',
@@ -52,25 +56,25 @@ export const categories: Category[] = [
     image: '1559051668-9024c9b5e84b',
   },
   {
-    slug: 'bows',
-    name: 'Bows',
+    slug: 'eye-masks',
+    name: 'Eye Masks',
+    tagline: 'Lights out, softly',
+    description: 'Satin sleep masks with a smooth face side and a comfortable band. For deeper sleep at home, on flights and on long train rides.',
+    image: '1687435703153-88f6bc0cdcff',
+  },
+  {
+    slug: 'bow-clips',
+    name: 'Bow Clips',
     tagline: 'Finish the look',
-    description: 'Satin and ribbon hair bows on a sturdy clip, from small everyday bows to long-tail statement pieces.',
+    description: 'Satin and ribbon bows on a sturdy clip, from small everyday bows to long-tail statement pieces.',
     image: '1776267034399-cda082a04350',
   },
   {
-    slug: 'gift-sets',
-    name: 'Combos & Gift Sets',
+    slug: 'gifting-sets',
+    name: 'Gifting Sets',
     tagline: 'One colour, the whole set',
     description: 'A pillow cover, eye mask and scrunchie in one colour. Ready to gift, or to treat yourself.',
     image: '1620763049710-ebd6432782df',
-  },
-  {
-    slug: 'pajamas',
-    name: 'Pajamas',
-    tagline: 'Sleepwear that feels like satin should',
-    description: 'Satin pajama sets with soft piping and an easy fit, in solids and prints.',
-    image: '1770294758942-7ce9ca052986',
   },
 ];
 
@@ -279,8 +283,8 @@ const seeds: Seed[] = [
     stock: 40,
     fabric: 'Printed satin',
     fit: 'Regular and Large',
-    description: 'Our sleep mask in a leopard print, made to match the leopard pajamas. Smooth satin, soft band, lights out.',
-    details: ['Leopard print satin', 'Soft padded fill', 'Matches the Leopard Satin Pajamas'],
+    description: 'Our sleep mask in a leopard print, made to match the Leopard Satin Sleep Set. Smooth satin, soft band, lights out.',
+    details: ['Leopard print satin', 'Soft padded fill', 'Matches the Leopard Satin Sleep Set'],
     badge: 'New',
   },
   {
@@ -392,10 +396,10 @@ const seeds: Seed[] = [
 
   // ─── BOWS ───────────────────────────────────────────────────
   {
-    slug: 'large-satin-hair-bow',
-    name: 'Large Satin Hair Bow',
-    category: 'bows',
-    type: 'Bow',
+    slug: 'large-satin-bow-clip',
+    name: 'Large Satin Bow Clip',
+    category: 'bow-clips',
+    type: 'Bow clip',
     gender: 'women',
     price: 249,
     compareAt: 299,
@@ -411,8 +415,8 @@ const seeds: Seed[] = [
   {
     slug: 'black-ribbon-bow-clip',
     name: 'Black Ribbon Bow Clip',
-    category: 'bows',
-    type: 'Bow',
+    category: 'bow-clips',
+    type: 'Bow clip',
     gender: 'women',
     price: 199,
     compareAt: null,
@@ -426,10 +430,10 @@ const seeds: Seed[] = [
     details: ['Satin ribbon', 'Metal clip', 'Everyday size'],
   },
   {
-    slug: 'pink-satin-bow',
-    name: 'Pink Satin Bow',
-    category: 'bows',
-    type: 'Bow',
+    slug: 'pink-satin-bow-clip',
+    name: 'Pink Satin Bow Clip',
+    category: 'bow-clips',
+    type: 'Bow clip',
     gender: 'women',
     price: 199,
     compareAt: null,
@@ -443,10 +447,10 @@ const seeds: Seed[] = [
     details: ['Satin bow', 'Metal clip', 'Two pinks'],
   },
   {
-    slug: 'long-tail-ribbon-bow',
-    name: 'Long-Tail Ribbon Bow',
-    category: 'bows',
-    type: 'Bow',
+    slug: 'long-tail-ribbon-bow-clip',
+    name: 'Long-Tail Ribbon Bow Clip',
+    category: 'bow-clips',
+    type: 'Bow clip',
     gender: 'women',
     price: 279,
     compareAt: null,
@@ -470,7 +474,7 @@ const seeds: Seed[] = [
   ] as const).map(([slug, name, color, images, line]) => ({
     slug: `${slug}-satin-combo`,
     name: `${name} Satin Combo`,
-    category: 'gift-sets',
+    category: 'gifting-sets',
     type: 'Combo',
     gender: 'women' as const,
     price: 799,
@@ -487,7 +491,7 @@ const seeds: Seed[] = [
   {
     slug: 'classic-black-combo',
     name: 'Classic Black Combo',
-    category: 'gift-sets',
+    category: 'gifting-sets',
     type: 'Combo',
     gender: 'women',
     price: 849,
@@ -504,7 +508,7 @@ const seeds: Seed[] = [
   {
     slug: 'bow-and-scrunchie-pack-of-2',
     name: 'Bow & Scrunchie, Pack of 2',
-    category: 'gift-sets',
+    category: 'gifting-sets',
     type: 'Gift set',
     gender: 'women',
     price: 349,
@@ -515,13 +519,13 @@ const seeds: Seed[] = [
     stock: 60,
     fabric: SATIN,
     fit: 'One bow and one regular scrunchie in the same colour',
-    description: 'A satin bow and a matching scrunchie in one colour. A small gift that always lands.',
+    description: 'A satin bow clip and a matching scrunchie in one colour. A small gift that always lands.',
     details: ['1 satin bow clip', '1 regular satin scrunchie', 'Same colour'],
   },
   {
     slug: 'sleep-pretty-gift-box',
     name: 'Sleep Pretty Gift Box',
-    category: 'gift-sets',
+    category: 'gifting-sets',
     type: 'Gift set',
     gender: 'women',
     price: 1199,
@@ -532,17 +536,17 @@ const seeds: Seed[] = [
     stock: 30,
     fabric: SATIN,
     fit: 'Choose the pillow size: Standard or Queen',
-    description: 'Everything for a softer night in one box: a pillow cover, an eye mask, a scrunchie trio and a satin bow.',
-    details: ['1 satin pillow cover', '1 satin eye mask', '3 regular scrunchies', '1 satin bow', 'Gift box with a note'],
+    description: 'Everything for a softer night in one box: a pillow cover, an eye mask, a scrunchie trio and a satin bow clip.',
+    details: ['1 satin pillow cover', '1 satin eye mask', '3 regular scrunchies', '1 satin bow clip', 'Gift box with a note'],
     badge: 'New',
   },
 
   // ─── PAJAMAS ────────────────────────────────────────────────
   {
-    slug: 'satin-pajama-set',
-    name: 'Satin Pajama Set',
-    category: 'pajamas',
-    type: 'Pajama set',
+    slug: 'satin-sleep-set',
+    name: 'Satin Sleep Set',
+    category: 'sleep-sets',
+    type: 'Sleep set',
     gender: 'women',
     price: 1499,
     compareAt: 1899,
@@ -556,10 +560,10 @@ const seeds: Seed[] = [
     details: ['Button-front shirt', 'Contrast piping', 'Elasticated waist', 'Machine wash cold'],
   },
   {
-    slug: 'lilac-satin-pajama-set',
-    name: 'Lilac Satin Pajama Set',
-    category: 'pajamas',
-    type: 'Pajama set',
+    slug: 'lilac-satin-sleep-set',
+    name: 'Lilac Satin Sleep Set',
+    category: 'sleep-sets',
+    type: 'Sleep set',
     gender: 'women',
     price: 1499,
     compareAt: null,
@@ -569,14 +573,14 @@ const seeds: Seed[] = [
     stock: 25,
     fabric: SATIN,
     fit: 'Relaxed fit',
-    description: 'Our satin pajama set in soft lilac. Pairs with the Lilac Satin Combo for a matching bedtime.',
+    description: 'Our satin sleep set in soft lilac. Pairs with the Lilac Satin Combo for a matching bedtime.',
     details: ['Button-front shirt', 'Full-length pants', 'Elasticated waist'],
   },
   {
-    slug: 'navy-piped-satin-pajamas',
-    name: 'Navy Piped Satin Pajamas',
-    category: 'pajamas',
-    type: 'Pajama set',
+    slug: 'navy-piped-satin-sleep-set',
+    name: 'Navy Piped Satin Sleep Set',
+    category: 'sleep-sets',
+    type: 'Sleep set',
     gender: 'women',
     price: 1599,
     compareAt: null,
@@ -590,10 +594,10 @@ const seeds: Seed[] = [
     details: ['White contrast piping', 'Chest pocket', 'Elasticated waist'],
   },
   {
-    slug: 'ivory-satin-pajama-set',
-    name: 'Ivory Satin Pajama Set',
-    category: 'pajamas',
-    type: 'Pajama set',
+    slug: 'ivory-satin-sleep-set',
+    name: 'Ivory Satin Sleep Set',
+    category: 'sleep-sets',
+    type: 'Sleep set',
     gender: 'women',
     price: 1499,
     compareAt: null,
@@ -607,10 +611,10 @@ const seeds: Seed[] = [
     details: ['Button-front shirt', 'Full-length pants', 'Elasticated waist'],
   },
   {
-    slug: 'leopard-satin-pajamas',
-    name: 'Leopard Satin Pajamas',
-    category: 'pajamas',
-    type: 'Pajama set',
+    slug: 'leopard-satin-sleep-set',
+    name: 'Leopard Satin Sleep Set',
+    category: 'sleep-sets',
+    type: 'Sleep set',
     gender: 'women',
     price: 1699,
     compareAt: 1999,
@@ -625,10 +629,10 @@ const seeds: Seed[] = [
     badge: 'New',
   },
   {
-    slug: 'zebra-satin-pajamas',
-    name: 'Zebra Satin Pajamas',
-    category: 'pajamas',
-    type: 'Pajama set',
+    slug: 'zebra-satin-sleep-set',
+    name: 'Zebra Satin Sleep Set',
+    category: 'sleep-sets',
+    type: 'Sleep set',
     gender: 'women',
     price: 1699,
     compareAt: null,

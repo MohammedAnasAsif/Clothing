@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { BRAND, IMAGES, categories, products } from '../../../shared/catalog';
 import { api } from '../lib/api';
 import { img } from '../lib/format';
+import { greeting, waLink } from '../lib/whatsapp';
+import { MessageCircle } from 'lucide-react';
 import { FadeUp, Marquee, Rise } from '../components/ui';
 
 export function About() {
@@ -11,19 +13,21 @@ export function About() {
       <section className="about-hero">
         <div className="about-hero__img"><img src={img(IMAGES.pastels, 1400, 1600)} alt="Pastel satin scrunchies" /></div>
         <div className="about-hero__text">
-          <span className="eyebrow muted">About Style Heaven</span>
+          <span className="eyebrow muted">About STYLE HEAVEN · {BRAND.location}</span>
           <Rise as="h1" lines={['Little luxuries,', 'every day']} immediate />
           <p>
-            Style Heaven makes satin accessories for hair and sleep: scrunchies, eye masks, pillow covers, bows and
-            pajamas, in a palette of soft colours you can mix and match.
+            STYLE HEAVEN is a satin accessories label from {BRAND.location}. We make scrunchies, sleep sets, pillow
+            covers, eye masks, bow clips and gifting sets in a palette of soft colours you can mix and match, and ship
+            them across India.
           </p>
           <p>
             Every piece is chosen to feel a little special without being precious. Wear the scrunchie to work, sleep on
             the pillow cover tonight, and gift the combo to someone who deserves softer nights.
           </p>
-          <a className="link-u" href={BRAND.instagramUrl} target="_blank" rel="noreferrer" style={{ alignSelf: 'start' }}>
-            Follow @{BRAND.instagram} on Instagram
-          </a>
+          <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center' }}>
+            <a className="btn btn--wa btn--sm" href={waLink(greeting())} target="_blank" rel="noreferrer"><MessageCircle size={15} strokeWidth={1.8} /> WhatsApp us</a>
+            <a className="link-u" href={BRAND.instagramUrl} target="_blank" rel="noreferrer">Follow @{BRAND.instagram}</a>
+          </div>
         </div>
       </section>
       <section className="section container">
@@ -72,26 +76,31 @@ export function Contact() {
       <div className="container page-head">
         <nav className="crumbs" aria-label="Breadcrumb"><Link to="/">Home</Link> / <span>Contact</span></nav>
         <Rise as="h1" lines={['Get in touch']} immediate />
-        <p>Questions about an order, colours or a wholesale enquiry? Message us on Instagram or give us a call.</p>
+        <p>Questions about an order, colours or a wholesale enquiry? WhatsApp us, email, or send a message below.</p>
       </div>
       <div className="container contact">
         <div className="contact__info">
           <div>
-            <h3>Instagram</h3>
-            <p><a className="link-u" href={BRAND.instagramUrl} target="_blank" rel="noreferrer">@{BRAND.instagram}</a></p>
-            <p className="muted">You can place orders by DM too. Send us the product name, colour and size.</p>
+            <h3>WhatsApp</h3>
+            <p><a className="btn btn--wa btn--sm" href={waLink(greeting())} target="_blank" rel="noreferrer"><MessageCircle size={15} strokeWidth={1.8} /> Chat on WhatsApp</a></p>
+            <p className="muted">Fastest way to order or ask about colours. Number: <span style={{ userSelect: 'all' }}>{BRAND.phone}</span></p>
           </div>
           <div>
-            <h3>Phone</h3>
-            <p style={{ userSelect: 'all' }}>{BRAND.phone}</p>
+            <h3>Email</h3>
+            <p style={{ userSelect: 'all' }}>{BRAND.email}</p>
+          </div>
+          <div>
+            <h3>Instagram</h3>
+            <p><a className="link-u" href={BRAND.instagramUrl} target="_blank" rel="noreferrer">@{BRAND.instagram}</a></p>
+            <p className="muted">You can also order by DM. Send the product name, colour and size.</p>
+          </div>
+          <div>
+            <h3>Location</h3>
+            <p>{BRAND.location}. We ship across India.</p>
           </div>
           <div>
             <h3>Wholesale & bulk</h3>
-            <p>Boutiques, salons, return gifts and corporate gifting: choose “Wholesale” as the subject below, or DM us with quantities and colours.</p>
-          </div>
-          <div>
-            <h3>Orders</h3>
-            <p>Track an order on the <Link to="/track" className="link-u">order tracking page</Link>.</p>
+            <p>Boutiques, salons, return gifts and corporate gifting: message us on WhatsApp with quantities and colours, or choose “Wholesale” as the subject below.</p>
           </div>
         </div>
         <form className="form" onSubmit={submit}>
@@ -137,6 +146,8 @@ export function Legal({ kind }: { kind: 'terms' | 'privacy' }) {
             <p>Only to process orders, answer messages and, if you opted in, send our newsletter. We never sell your data.</p>
             <h2>Your cart and wishlist</h2>
             <p>Your cart and wishlist are stored in your own browser so they persist between visits. Clearing your site data removes them.</p>
+            <h2>Contact</h2>
+            <p>Questions about your data: {BRAND.email}</p>
           </>
         )}
       </div>

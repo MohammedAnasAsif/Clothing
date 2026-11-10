@@ -12,7 +12,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 function Hero() {
   return (
-    <section className="hero" aria-label="Style Heaven">
+    <section className="hero" aria-label="STYLE HEAVEN">
       <div className="hero__media">
         <img
           src={img(IMAGES.hero, 1800)}
@@ -26,26 +26,10 @@ function Hero() {
         <motion.p className="eyebrow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }}>
           Satin for hair &amp; sleep
         </motion.p>
-        <h1 className="hero__title hero__title--brand">
-          <span className="sr-only">Style Heaven</span>
-          <motion.span
-            className="hero__script"
-            aria-hidden
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, ease, delay: 0.1 }}
-          >
-            Style
-          </motion.span>
-          <span className="rise" aria-hidden>
-            <motion.span initial={{ y: '105%' }} animate={{ y: '0%' }} transition={{ duration: 1.05, ease, delay: 0.3 }}>
-              HEAVEN
-            </motion.span>
-          </span>
-        </h1>
+        <Rise as="h1" className="hero__title hero__title--brand" lines={['STYLE HEAVEN']} immediate delay={0.15} />
         <motion.p className="hero__copy" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 1, ease }}>
-          Satin scrunchies, eye masks, pillow covers, bows and pajamas. Softer on your hair, softer on your skin, and
-          made in colours you will want in every size.
+          Satin scrunchies, sleep sets, pillow covers, eye masks, bow clips and gifting sets. Softer on your hair, softer
+          on your skin, and made in colours you will want in every size.
         </motion.p>
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 1, ease }}>
           <Link to="/shop" className="btn btn--light">Shop the collection</Link>
@@ -57,8 +41,8 @@ function Hero() {
 
 function Split() {
   const items = [
-    { to: '/category/scrunchies', title: 'HAIR', copy: 'Satin scrunchies and bows, from everyday ponytails to party braids.', image: IMAGES.hair },
-    { to: '/category/pillow-covers', title: 'SLEEP', copy: 'Eye masks, pillow covers and pajamas for softer nights and smoother mornings.', image: IMAGES.sleep },
+    { to: '/category/scrunchies', title: 'HAIR', copy: 'Satin scrunchies and bow clips, from everyday ponytails to party braids.', image: IMAGES.hair },
+    { to: '/category/pillow-covers', title: 'SLEEP', copy: 'Sleep sets, pillow covers and eye masks for softer nights and smoother mornings.', image: IMAGES.sleep },
   ];
   return (
     <section className="split" aria-label="Shop hair or sleep">
@@ -150,10 +134,10 @@ function SliceBanner() {
       <div className="slice-banner__content">
         <div className="container">
           <div className="inner">
-            <FadeUp><span className="eyebrow">The combo edit</span></FadeUp>
+            <FadeUp><span className="eyebrow">Gifting sets</span></FadeUp>
             <Rise lines={['One Colour,', 'The Whole Set']} delay={0.3} />
             <FadeUp delay={0.5}><p>A satin pillow cover, eye mask and scrunchie in Lemon, Lilac, Onion Pink, Pistachio or Classic Black. Ready to gift.</p></FadeUp>
-            <FadeUp delay={0.6}><Link to="/category/gift-sets" className="link-u">Shop combos</Link></FadeUp>
+            <FadeUp delay={0.6}><Link to="/category/gifting-sets" className="link-u">Shop gifting sets</Link></FadeUp>
           </div>
         </div>
       </div>
@@ -196,7 +180,7 @@ const STORIES = [
   { slug: 'scrunchies', label: 'Scrunchies', title: ['Hold,', 'without the dent'], copy: 'Smooth satin that slides out without tugging. Mini, regular and XL, in every colour of the range.', image: '1777795530508-005312461d00' },
   { slug: 'eye-masks', label: 'Eye Masks', title: ['Lights out,', 'softly'], copy: 'A satin mask that blocks the light without pressing on your eyes, with a band that stays put all night.', image: '1666934209593-25b6aa02ab4e' },
   { slug: 'pillow-covers', label: 'Pillow Covers', title: ['Satin where', 'you sleep'], copy: 'Hidden envelope closure, three sizes, and a surface your hair glides over instead of rubbing against.', image: '1698746043955-42b03ddedfcb' },
-  { slug: 'pajamas', label: 'Pajamas', title: ['Sleepwear that', 'feels like satin'], copy: 'Soft piping, an easy fit and fabric that stays cool against your skin. In solids and prints.', image: '1793930300711-883df7f0e835' },
+  { slug: 'sleep-sets', label: 'Sleep Sets', title: ['Sleepwear that', 'feels like satin'], copy: 'Soft piping, an easy fit and fabric that stays cool against your skin. In solids and prints.', image: '1793930300711-883df7f0e835' },
 ];
 
 const BENEFITS = [
@@ -252,7 +236,7 @@ export default function Home() {
           { label: 'Scrunchies', query: { category: 'scrunchies' } },
           { label: 'Eye Masks', query: { category: 'eye-masks' } },
           { label: 'Pillow Covers', query: { category: 'pillow-covers' } },
-          { label: 'Bows', query: { category: 'bows' } },
+          { label: 'Bow Clips', query: { category: 'bow-clips' } },
         ]}
       />
       <Split />
@@ -262,10 +246,10 @@ export default function Home() {
         id="selected"
         title="Selected Pieces"
         tabs={[
-          { label: 'Combos', query: { category: 'gift-sets' } },
+          { label: 'Gifting Sets', query: { category: 'gifting-sets' } },
           { label: 'New In', query: { sort: 'newest' } },
           { label: 'On Sale', query: { sale: true } },
-          { label: 'Pajamas', query: { category: 'pajamas' } },
+          { label: 'Sleep Sets', query: { category: 'sleep-sets' } },
         ]}
       />
       <section className="section container" aria-label="Collections">

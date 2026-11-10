@@ -1,6 +1,6 @@
-# Style Heaven
+# STYLE HEAVEN
 
-Full-stack storefront for **Style Heaven** ([@style_.heaven_](https://www.instagram.com/style_.heaven_/)) — satin scrunchies, eye masks, pillow covers, bows, combos and pajamas.
+Full-stack storefront for **STYLE HEAVEN**, Trichy, Tamil Nadu ([@style_.heaven_](https://www.instagram.com/style_.heaven_/) · styleheaven0807@gmail.com · 80562 21231) — satin scrunchies, sleep sets, pillow covers, eye masks, bow clips and gifting sets.
 
 - **Frontend:** React 19 + Vite, React Router, Motion (animations), lucide icons. Plain CSS design system in `client/src/styles/global.css` (Bodoni Moda + Instrument Sans, with a signature script for the logo; ink on white with powder blue).
 - **Backend:** Express 5 + SQLite (Node's built-in `node:sqlite`, no native builds), Zod validation, Helmet, rate limiting.
@@ -40,6 +40,20 @@ npm run typecheck
   One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**, then re-run the workflow.
 
 The Pages preview runs entirely in the browser (orders and reviews are stored locally). The full store with the database needs a Node host — see *Production* above.
+
+## WhatsApp
+
+Customers can order on WhatsApp from anywhere on the site. Each button opens a chat with **80562 21231** with the message already typed:
+
+- **Floating "Chat on WhatsApp" button** on every page
+- **Product page → Order on WhatsApp**: product, colour, size, quantity, price and link
+- **Cart → Order on WhatsApp**: every line, totals, and blanks for name/address/PIN
+- **Order confirmation → Confirm on WhatsApp**: the order number and summary for website orders
+- Contact, About, footer and product "Ask us" links
+
+The number lives in `shared/catalog.ts` (`BRAND.whatsapp`, digits only with country code).
+
+**Optional order alerts to the shop.** The server can send the shop a WhatsApp message for every website order through Meta's WhatsApp Business Cloud API. Set `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID` and `WHATSAPP_NOTIFY_TO` in `.env` (see `.env.example`). Create and get approval for a utility template with four body variables (order number, customer, total, items) and set `WHATSAPP_TEMPLATE` to its name; without a template WhatsApp only delivers the alert if the shop messaged the business number in the last 24 hours. Alerts never block or fail an order. This needs the full server, not the GitHub Pages preview.
 
 ## Pages
 
