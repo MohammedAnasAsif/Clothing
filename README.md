@@ -43,17 +43,15 @@ The Pages preview runs entirely in the browser (orders and reviews are stored lo
 
 ## WhatsApp
 
-Customers can order on WhatsApp from anywhere on the site. Each button opens a chat with **80562 21231** with the message already typed:
+**All orders are placed on WhatsApp** — there is no website checkout. Customers add items to the cart and press *Order on WhatsApp*. Each button opens a chat with **80562 21231** with the message already typed:
 
 - **Floating "Chat on WhatsApp" button** on every page
 - **Product page → Order on WhatsApp**: product, colour, size, quantity, price and link
-- **Cart → Order on WhatsApp**: every line, totals, and blanks for name/address/PIN
-- **Order confirmation → Confirm on WhatsApp**: the order number and summary for website orders
+- **Cart drawer and cart page → Order on WhatsApp** (the only order button): every line, totals, and blanks for name/address/PIN
 - Contact, About, footer and product "Ask us" links
 
 The number lives in `shared/catalog.ts` (`BRAND.whatsapp`, digits only with country code).
 
-**Optional order alerts to the shop.** The server can send the shop a WhatsApp message for every website order through Meta's WhatsApp Business Cloud API. Set `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID` and `WHATSAPP_NOTIFY_TO` in `.env` (see `.env.example`). Create and get approval for a utility template with four body variables (order number, customer, total, items) and set `WHATSAPP_TEMPLATE` to its name; without a template WhatsApp only delivers the alert if the shop messaged the business number in the last 24 hours. Alerts never block or fail an order. This needs the full server, not the GitHub Pages preview.
 
 ## Pages
 
@@ -63,8 +61,7 @@ The number lives in `shared/catalog.ts` (`BRAND.whatsapp`, digits only with coun
 | `/shop`, `/category/:slug` | Sidebar filters (category, department, style, size, price, sale), sort, grid/list view, load more; filters live in the URL |
 | `/product/:slug` | Gallery with click-to-zoom, colour/size/qty, size guide, description and reviews tabs (reviews post to the API), related products |
 | `/cart`, `/wishlist` | Both persist in the browser between visits; cart drawer opens from anywhere |
-| `/checkout` → `/order/:number` | Validated Indian address form, COD / UPI on delivery; server re-prices every line and decrements stock in a transaction |
-| `/track` | Order lookup by number + email |
+| `/cart` | Cart with *Order on WhatsApp*; `/checkout`, `/order/…` and `/track` redirect to the cart or contact page |
 | `/about`, `/contact`, `/terms`, `/privacy`, 404 | Contact form stores messages; newsletter in the footer stores subscribers |
 | `/admin` | Orders (change status), low stock, messages, subscribers. Needs `ADMIN_TOKEN` |
 
@@ -89,7 +86,7 @@ PATCH /api/admin/orders/:number          { status }
 - **Prices, stock, sizes and shipping:** placeholders. Edit prices/stock in `shared/catalog.ts`, the free-shipping threshold (₹999) and fee (₹60) in `shared/types.ts`, and the size charts in `client/src/pages/Product.tsx`.
 - **Reviews:** the store starts with no reviews; customer reviews appear as they are posted.
 - **Legal copy:** the Terms and Privacy pages are placeholders, including the returns policy.
-- **Payments:** checkout supports cash/UPI on delivery. To take online payments, add a Razorpay or Stripe order step in `server/src/routes/orders.ts` before the order is stored.
+- **Payments:** orders and payment (cash or UPI on delivery) are arranged on WhatsApp. The server still has an orders API (`server/src/routes/orders.ts`) if you later want a website checkout back.
 - **Database:** SQLite is fine for a single server. For multiple instances, move the queries in `server/src` to Postgres.
 
 ## Static preview

@@ -83,7 +83,7 @@ export function Contact() {
           <div>
             <h3>WhatsApp</h3>
             <p><a className="btn btn--wa btn--sm" href={waLink(greeting())} target="_blank" rel="noreferrer"><MessageCircle size={15} strokeWidth={1.8} /> Chat on WhatsApp</a></p>
-            <p className="muted">Fastest way to order or ask about colours. Number: <span style={{ userSelect: 'all' }}>{BRAND.phone}</span></p>
+            <p className="muted">All orders are placed on WhatsApp. Add items to your cart and press “Order on WhatsApp”, or message us directly. Number: <span style={{ userSelect: 'all' }}>{BRAND.phone}</span></p>
           </div>
           <div>
             <h3>Email</h3>
@@ -132,7 +132,7 @@ export function Legal({ kind }: { kind: 'terms' | 'privacy' }) {
         {terms ? (
           <>
             <h2>Orders</h2>
-            <p>An order is confirmed once you receive an order number. We may cancel an order if an item becomes unavailable, in which case you will not be charged.</p>
+            <p>Orders are placed on WhatsApp. An order is confirmed once we reply with the final total and payment details. If an item becomes unavailable we will tell you before you pay.</p>
             <h2>Pricing</h2>
             <p>All prices are in Indian Rupees. Shipping is free on orders of ₹999 or more; a ₹60 fee applies below that.</p>
             <h2>Returns & exchanges</h2>
@@ -141,7 +141,7 @@ export function Legal({ kind }: { kind: 'terms' | 'privacy' }) {
         ) : (
           <>
             <h2>What we collect</h2>
-            <p>When you order, we collect your name, contact details and delivery address so we can fulfil it. If you subscribe, we store your email address.</p>
+            <p>When you order on WhatsApp, we use the name, number and delivery address you send us to fulfil the order. If you subscribe, we store your email address.</p>
             <h2>How we use it</h2>
             <p>Only to process orders, answer messages and, if you opted in, send our newsletter. We never sell your data.</p>
             <h2>Your cart and wishlist</h2>

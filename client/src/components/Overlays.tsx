@@ -120,13 +120,9 @@ export function CartDrawer() {
               <span>Subtotal</span>
               <span>{money(subtotal)}</span>
             </div>
-            <p className="muted" style={{ fontSize: 12.5 }}>Taxes included. Shipping calculated at checkout.</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-              <button className="btn btn--ghost" onClick={() => { close(); navigate('/cart'); }}>View cart</button>
-              <button className="btn" onClick={() => { close(); navigate('/checkout'); }}>Checkout</button>
-            </div>
+            <p className="muted" style={{ fontSize: 12.5 }}>Your order opens in WhatsApp, typed out and ready to send. We confirm the total and payment there.</p>
             <a className="btn btn--wa btn--block" href={waLink(cartMessage(cart, subtotal, shipping))} target="_blank" rel="noreferrer">
-              <MessageCircle size={17} strokeWidth={1.8} /> Order on WhatsApp instead
+              <MessageCircle size={17} strokeWidth={1.8} /> Order on WhatsApp
             </a>
           </>
         )

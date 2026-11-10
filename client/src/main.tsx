@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, createHashRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { MotionConfig } from 'motion/react';
 import { OFFLINE } from './lib/api';
 import { StoreProvider } from './lib/store';
@@ -8,7 +8,7 @@ import { Layout } from './components/Layout';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ProductPage from './pages/Product';
-import { CartPage, CheckoutPage, OrderPage, TrackPage, WishlistPage } from './pages/Commerce';
+import { CartPage, WishlistPage } from './pages/Commerce';
 import { About, Contact, Legal } from './pages/Info';
 import Admin from './pages/Admin';
 import NotFound from './pages/NotFound';
@@ -24,9 +24,10 @@ const routes = [
       { path: '/product/:slug', element: <ProductPage /> },
       { path: '/cart', element: <CartPage /> },
       { path: '/wishlist', element: <WishlistPage /> },
-      { path: '/checkout', element: <CheckoutPage /> },
-      { path: '/order/:number', element: <OrderPage /> },
-      { path: '/track', element: <TrackPage /> },
+      // Orders are placed on WhatsApp; old checkout/tracking links land somewhere useful.
+      { path: '/checkout', element: <Navigate to="/cart" replace /> },
+      { path: '/order/:number', element: <Navigate to="/contact" replace /> },
+      { path: '/track', element: <Navigate to="/contact" replace /> },
       { path: '/about', element: <About /> },
       { path: '/contact', element: <Contact /> },
       { path: '/terms', element: <Legal kind="terms" /> },

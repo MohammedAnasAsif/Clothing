@@ -1,5 +1,5 @@
 import { BRAND } from '../../../shared/catalog';
-import type { CartLine, Order } from '../../../shared/types';
+import type { CartLine } from '../../../shared/types';
 import { money } from './format';
 
 /**
@@ -53,22 +53,5 @@ export function cartMessage(cart: Line[], subtotal: number, shipping: number) {
     'Name:',
     'Delivery address:',
     'PIN code:',
-  ].join('\n');
-}
-
-export function orderMessage(o: Order) {
-  const items = o.items.map((l) => {
-    const size = l.size !== 'One size' ? `, ${l.size}` : '';
-    return `• ${l.name} (${l.color}${size}) × ${l.qty}`;
-  });
-  return [
-    `Hi ${BRAND.name}! I just placed order ${o.number} on your website.`,
-    '',
-    ...items,
-    '',
-    `Total: ${money(o.total)} (${o.payment === 'cod' ? 'cash on delivery' : 'UPI on delivery'})`,
-    `Deliver to: ${o.customer.name}, ${o.customer.city} ${o.customer.pincode}`,
-    '',
-    'Please confirm my order.',
   ].join('\n');
 }

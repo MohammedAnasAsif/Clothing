@@ -3,7 +3,6 @@ import { randomInt } from 'node:crypto';
 import { z } from 'zod';
 import { db } from '../db';
 import { rateLimit } from '../middleware';
-import { notifyNewOrder } from '../notify';
 import { FREE_SHIPPING_FROM, SHIPPING_FEE, type Order, type OrderItem } from '../../../shared/types';
 
 export const orders = Router();
@@ -89,7 +88,6 @@ orders.post('/orders', rateLimit(10, 60_000), (req, res) => {
 
     const order: Order = { number, customer, items: lines, subtotal, shipping, total, payment, status: 'placed', createdAt };
     res.status(201).json(order);
-    void notifyNewOrder(order); // optional WhatsApp alert to the shop; never blocks the order
   } catch (e) {
     db.exec('ROLLBACK');
     if (e instanceof OrderError) return res.status(e.status).json({ error: e.message });

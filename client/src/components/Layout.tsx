@@ -173,7 +173,7 @@ function Footer() {
           <div>
             <h4>Help</h4>
             <ul>
-              <li><Link to="/track">Track an order</Link></li>
+              <li><a href={waLink('Hi STYLE HEAVEN! I would like an update on my order.')} target="_blank" rel="noreferrer">Order updates on WhatsApp</a></li>
               <li><Link to="/wishlist">Wishlist</Link></li>
               <li><Link to="/cart">Your cart</Link></li>
               <li><Link to="/terms">Terms & Conditions</Link></li>
