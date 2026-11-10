@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Eye, Heart } from 'lucide-react';
+import { Eye, Heart, ShoppingBag } from 'lucide-react';
 import type { Product } from '../../../shared/types';
 import { discountPct } from '../../../shared/query';
 import { img, srcSet } from '../lib/format';
@@ -46,12 +46,13 @@ export function ProductCard({ p, eager }: { p: Product; eager?: boolean }) {
           >
             <Heart size={17} strokeWidth={1.5} fill={saved ? 'currentColor' : 'none'} />
           </button>
-          <button type="button" className="card__tool" aria-label={`Quick view ${p.name}`} onClick={() => setQuickView(p)}>
+          <button type="button" className="card__tool card__tool--qv" aria-label={`Quick view ${p.name}`} onClick={() => setQuickView(p)}>
             <Eye size={17} strokeWidth={1.5} />
           </button>
         </div>
         <button type="button" className="card__add" onClick={() => addToCart(p)} aria-label={`Add ${p.name} to cart`}>
-          Add to cart
+          <ShoppingBag size={17} strokeWidth={1.6} aria-hidden />
+          <span className="card__add-label">Add to cart</span>
         </button>
       </div>
       <div className="card__body">

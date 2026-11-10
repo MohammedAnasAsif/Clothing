@@ -154,3 +154,17 @@ export function useAsync<T>(fn: () => Promise<T>, deps: unknown[]) {
   }, [...deps, tick]);
   return { ...state, reload: () => setTick((t) => t + 1) };
 }
+
+/** True while the media query matches (e.g. '(max-width: 720px)'). */
+export function useMedia(query: string) {
+  const get = () => typeof window !== 'undefined' && window.matchMedia(query).matches;
+  const [matches, setMatches] = useState(get);
+  useEffect(() => {
+    const mq = window.matchMedia(query);
+    const on = () => setMatches(mq.matches);
+    on();
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, [query]);
+  return matches;
+}

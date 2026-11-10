@@ -10,9 +10,9 @@ import { greeting, waLink } from '../lib/whatsapp';
 import { CartDrawer, MobileMenu, QuickView, SearchOverlay, Toast } from './Overlays';
 
 const MESSAGES = [
-  'Free shipping across India on orders over ₹999',
-  'Satin combos: pillow cover, eye mask and scrunchie from ₹799',
-  'Order online or on WhatsApp · Shipping from Trichy across India',
+  'Free shipping over ₹999',
+  'Gifting sets from ₹799',
+  'Order on WhatsApp · 80562 21231',
 ];
 
 function Announcement() {

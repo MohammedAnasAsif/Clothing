@@ -1,23 +1,64 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { MessageCircle, Star, Truck, Wallet, X } from 'lucide-react';
 import { BRAND, categories } from '../../../shared/catalog';
-import { waLink } from '../lib/whatsapp';
+import { productMessage, waLink } from '../lib/whatsapp';
 import type { Review } from '../../../shared/types';
 import { discountPct } from '../../../shared/query';
 import { api } from '../lib/api';
 import { fmtDate, img, srcSet } from '../lib/format';
-import { useAsync } from '../lib/store';
+import { useAsync, useMedia } from '../lib/store';
 import { BuyOptions } from '../components/BuyOptions';
 import { ProductCard } from '../components/ProductCard';
 import { Price, Stars } from '../components/ui';
 import NotFound from './NotFound';
 
+/** Swipeable photo strip for touch screens: native scroll-snap, dots, no zoom. */
+function SwipeGallery({ images, name }: { images: string[]; name: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    ref.current?.scrollTo({ left: 0 });
+    setI(0);
+  }, [images]);
+  const go = (n: number) => ref.current?.scrollTo({ left: n * ref.current.clientWidth, behavior: 'smooth' });
+  return (
+    <div className="swipe">
+      <div
+        ref={ref}
+        className="swipe__track"
+        aria-label={`${name} photos`}
+        onScroll={(e) => setI(Math.round(e.currentTarget.scrollLeft / e.currentTarget.clientWidth))}
+      >
+        {images.map((id, n) => (
+          <img
+            key={id + n}
+            src={img(id, 800, 1000)}
+            srcSet={srcSet(id, [480, 720, 960], 1.25)}
+            sizes="100vw"
+            alt={`${name}, image ${n + 1} of ${images.length}`}
+            loading={n === 0 ? 'eager' : 'lazy'}
+          />
+        ))}
+      </div>
+      {images.length > 1 && (
+        <div className="swipe__dots">
+          {images.map((_, n) => (
+            <button key={n} aria-label={`Show image ${n + 1}`} aria-current={n === i} onClick={() => go(n)} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Gallery({ images, name }: { images: string[]; name: string }) {
+  const touch = useMedia('(hover: none) and (max-width: 1100px), (max-width: 720px)');
   const [i, setI] = useState(0);
   const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
   useEffect(() => setI(0), [images]);
+  if (touch) return <SwipeGallery images={images} name={name} />;
   return (
     <div className="gallery">
       <div className="gallery__thumbs" role="tablist" aria-label="Product images">
@@ -46,7 +87,7 @@ function Gallery({ images, name }: { images: string[]; name: string }) {
             key={images[i]}
             src={img(images[i], 1200, 1500)}
             srcSet={srcSet(images[i], [600, 900, 1300, 1600], 1.25)}
-            sizes="(max-width: 960px) 100vw, 52vw"
+            sizes="(max-width: 960px) 50vw, 52vw"
             alt={`${name}, image ${i + 1} of ${images.length}`}
             style={zoom ? { transformOrigin: `${zoom.x}% ${zoom.y}%` } : undefined}
             initial={{ opacity: 0 }}
@@ -57,6 +98,41 @@ function Gallery({ images, name }: { images: string[]; name: string }) {
         </AnimatePresence>
       </div>
     </div>
+  );
+}
+
+/** Phone-only bar that keeps price + Add to cart in reach once the buy box scrolls away. */
+function StickyBuyBar({ target, name, price, compareAt, onWhatsApp }: { target: React.RefObject<HTMLDivElement | null>; name: string; price: number; compareAt: number | null; onWhatsApp: string }) {
+  const phone = useMedia('(max-width: 760px)');
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const el = target.current;
+    if (!phone || !el) return setShow(false);
+    const io = new IntersectionObserver(([e]) => setShow(!e.isIntersecting && e.boundingClientRect.top < 0));
+    io.observe(el);
+    return () => io.disconnect();
+  }, [phone, target]);
+  useEffect(() => {
+    document.body.classList.toggle('has-buybar', show);
+    return () => document.body.classList.remove('has-buybar');
+  }, [show]);
+  return (
+    <AnimatePresence>
+      {show && (
+        <motion.div className="buybar" initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}>
+          <div className="buybar__info">
+            <span className="buybar__name">{name}</span>
+            <Price p={{ price, compareAt }} />
+          </div>
+          <a className="buybar__wa" href={onWhatsApp} target="_blank" rel="noreferrer" aria-label="Order on WhatsApp">
+            <MessageCircle size={20} strokeWidth={1.8} />
+          </a>
+          <button className="btn btn--sm" onClick={() => target.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })}>
+            Add to cart
+          </button>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -168,6 +244,7 @@ export default function ProductPage() {
   const [tab, setTab] = useState<'details' | 'reviews'>('details');
   const [guide, setGuide] = useState(false);
   const [extra, setExtra] = useState<Review[]>([]);
+  const buyRef = useRef<HTMLDivElement>(null);
   useEffect(() => { setExtra([]); setTab('details'); }, [slug]);
   useEffect(() => {
     if (data) document.title = `${data.product.name} — STYLE HEAVEN`;
@@ -219,7 +296,9 @@ export default function ProductPage() {
             <span className="muted" style={{ fontSize: 12.5 }}>Inclusive of all taxes</span>
           </div>
           <p className="buy__desc">{p.description}</p>
-          <BuyOptions key={p.slug} p={p} onSizeGuide={GUIDES[p.category] && p.sizes.length > 1 ? () => setGuide(true) : undefined} />
+          <div ref={buyRef}>
+            <BuyOptions key={p.slug} p={p} onSizeGuide={GUIDES[p.category] && p.sizes.length > 1 ? () => setGuide(true) : undefined} />
+          </div>
           <span className={`buy__stock${p.stock < 12 ? ' is-low' : ''}`}>
             {p.stock === 0 ? 'Out of stock' : p.stock < 12 ? `Only ${p.stock} left — order soon` : 'In stock, ready to ship'}
           </span>
@@ -304,6 +383,7 @@ export default function ProductPage() {
         </section>
       )}
       <SizeGuide open={guide} onClose={() => setGuide(false)} category={p.category} />
+      <StickyBuyBar target={buyRef} name={p.name} price={p.price} compareAt={p.compareAt} onWhatsApp={waLink(productMessage(p, { color: p.colors[0].name }))} />
     </>
   );
 }
