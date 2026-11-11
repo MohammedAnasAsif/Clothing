@@ -25,6 +25,7 @@ export const BRAND = {
 
 export const IMAGES = {
   hero: '1742794565428-1a74fa73f1c9', // woman asleep on satin with an eye mask
+  heroFocus: { x: 0.3, y: 0.35 }, // her face, used to crop the photo for tall phone/tablet screens
   hair: '1701559459709-423baf04e60f', // satin scrunchie ponytail
   sleep: '1766056278948-dbb10f6d82bf', // pink satin sleep set
   combo: '1745613999710-1aaf60145502', // soft peach bedroom

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, type MotionValue } from 'motion/react';
 import { IMAGES } from '../../../shared/catalog';
 import { api } from '../lib/api';
-import { img, srcSet } from '../lib/format';
+import { focusSet, img, srcSet } from '../lib/format';
 import { useAsync } from '../lib/store';
 import { ProductRail } from '../components/ProductRail';
 import { FadeUp, Marquee, Rise } from '../components/ui';
@@ -14,13 +14,18 @@ function Hero() {
   return (
     <section className="hero" aria-label="STYLE HEAVEN">
       <div className="hero__media">
-        <img
-          src={img(IMAGES.hero, 1800)}
-          srcSet={srcSet(IMAGES.hero, [800, 1200, 1800, 2400])}
-          sizes="100vw"
-          alt="A woman asleep on satin bedding wearing a satin eye mask"
-          fetchPriority="high"
-        />
+        {/* Tall screens get a portrait crop centred on her face instead of a squeezed landscape photo. */}
+        <picture>
+          <source media="(max-aspect-ratio: 3/4)" sizes="100vw" srcSet={focusSet(IMAGES.hero, 1.8, IMAGES.heroFocus.x, IMAGES.heroFocus.y, [480, 720, 960, 1200])} />
+          <source media="(max-aspect-ratio: 1/1)" sizes="100vw" srcSet={focusSet(IMAGES.hero, 1.25, IMAGES.heroFocus.x, IMAGES.heroFocus.y + 0.05, [800, 1200, 1600])} />
+          <img
+            src={img(IMAGES.hero, 1800)}
+            srcSet={srcSet(IMAGES.hero, [800, 1200, 1800, 2400])}
+            sizes="100vw"
+            alt="A woman asleep on satin bedding wearing a satin eye mask"
+            fetchPriority="high"
+          />
+        </picture>
       </div>
       <div className="hero__content">
         <motion.p className="eyebrow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 1 }}>

@@ -8,6 +8,18 @@ export function img(id: string, w = 800, h?: number) {
   return `https://images.unsplash.com/photo-${id}?w=${w}${size}&q=78&auto=format&fit=crop`;
 }
 
+/**
+ * Crop to an exact width × height around a focal point (0–1 from the left/top), so a subject
+ * stays in frame when a landscape photo is shown on a tall phone screen.
+ */
+export function imgFocus(id: string, w: number, h: number, fx: number, fy: number) {
+  return `https://images.unsplash.com/photo-${id}?w=${w}&h=${h}&q=78&auto=format&fit=crop&crop=focalpoint&fp-x=${fx}&fp-y=${fy}`;
+}
+
+export function focusSet(id: string, ratio: number, fx: number, fy: number, widths: number[]) {
+  return widths.map((w) => `${imgFocus(id, w, Math.round(w * ratio), fx, fy)} ${w}w`).join(', ');
+}
+
 export function srcSet(id: string, widths = [400, 640, 900, 1200], ratio?: number) {
   return widths.map((w) => `${img(id, w, ratio ? Math.round(w * ratio) : undefined)} ${w}w`).join(', ');
 }
